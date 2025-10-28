@@ -1,0 +1,84 @@
+---
+title: 'A title'
+authors:
+  - name: Haziq Jamil
+    orcid: 0000-0003-3298-1010
+    email: haziq.jamil@ubd.edu.bn
+    url: 'https://haziqj.ml'
+    corresponding: true
+    affiliations:
+      - ref: kaust
+      - ref: ubd
+  - name: Another Coauthor
+    orcid: 0000-0003-3298-1010
+    email: a.coauthor@uni.edu.sa
+    url: 'https://haziqj.ml'
+    affiliations:
+      - ref: lse    
+affiliations:
+  - name: King Abdullah University of Science and Technology
+    id: kaust
+    department: Computer, Electrical and Mathematical Sciences and Engineering (CEMSE) Division
+    address: King Abdullah University of Science and Technology
+    city: Thuwal
+    country: Kingdom of Saudi Arabia
+    postal-code: 23955-6900      
+  - name: Universiti Brunei Darussalam
+    id: ubd
+    department: Mathematical Sciences, Faculty of Science
+    address: Universiti Brunei Darussalam, Jalan Tungku Link
+    city: Bandar Seri Begawan
+    country: Brunei
+    postal-code: BE 1410
+  - name: London School of Economics and Political Science
+    id: lse
+    department: Department of Statistics
+    address: London School of Economics and Political Science, Columbia House, Houghton Street
+    city: London
+    country: United Kingdom
+    postal-code: WC2A 2AE       
+abstract: |
+  A nice abstract goes here.
+keywords:
+  - Keyword
+  - Keyword
+  - Keyword
+  - Keyword
+  - Keyword
+manuscript-url: https://haziqj.ml/
+bibliography: refs.bib
+csl: apa.csl
+nocite: |
+  @*
+---
+
+{{< include _extensions/_maths_shortcuts.qmd >}}
+
+## Introduction
+
+The structural equation models are
+$$
+\begin{aligned}
+  \by &= \bnu + \bLambda \bfeta + \bepsilon \\
+  \bfeta &= \balpha + \bB \bfeta  + \bzeta \\
+  \bepsilon &\sim \N(\bzero, \bTheta_{\bepsilon}) \\
+  \bzeta &\sim \N(\bzero, \bPsi) \\
+\end{aligned}
+$${#eq-sem}
+
+where $\bLambda$ is the factor loading matrix, $\bfeta$ is the latent variable vector, $\bepsilon$ is the measurement error vector, $\bnu$ is the intercept vector, $\balpha$ is the intercept vector for the latent variables, $\bB$ is the regression coefficient matrix for the latent variables, and $\bTheta_{\bepsilon}$ and $\bPsi$ are the covariance matrices of the measurement errors and latent variables, respectively.
+The model defined by @eq-sem is very nice.
+
+## Methods
+
+{{< include _methods.qmd >}}
+
+## References {.unnumbered}
+
+::: {#refs}
+:::
+
+## Appendix {.unnumbered}
+
+{{< include _appendix.qmd >}}
+

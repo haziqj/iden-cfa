@@ -1,0 +1,61 @@
+project:
+  type: manuscript
+  output-dir: docs/
+  post-render:
+    - _cleanup.R
+
+manuscript:
+  article: manuscript.qmd
+
+notebook-links: false
+
+format:
+  html:
+    toc: true
+    toc-location: left
+    number-sections: true
+    fontsize: 110%
+    lightbox: true
+    # template-partials:
+    #   - title-metadata.html
+
+  pdf:
+    pdf-engine: pdflatex
+    output-file: jamil2025
+    keep-tex: true
+    number-sections: true
+    header-includes:
+      - \include{_extensions/maths_shortcuts.tex}
+
+  # arxiv-pdf:
+  #   pdf-engine: pdflatex
+  #   keep-tex: true
+  #   linenumbers: true
+  #   doublespacing: false
+  #   runninghead: "A Preprint"
+  #   authorcols: false
+  #   output-file: jamil2025
+  #   header-includes:
+  #     - \usepackage{setspace}
+  #     - \include{_extensions/maths_shortcuts.tex}
+  #     - \onehalfspacing
+
+  # docx: 
+  #   link-citations: true
+  #   output-file: jamil2025
+
+execute:
+  echo: false
+  cache: false
+  freeze: auto
+  warning: false
+
+editor_options: 
+  chunk_output_type: console
+
+citation: 
+  type: article-journal  
+  issued: 2025
+  container-title: 'Manuscript in preparation'
+  url: https://haziqj.ml/
+google-scholar: true

@@ -1,0 +1,8 @@
+```{r latex_shortcuts}
+#| echo: false
+#| results: asis
+#| eval: !expr knitr::is_html_output()
+
+# LaTeX shortcuts 
+cat(readr::read_file("_extensions/maths_shortcuts.tex"))
+``` 

@@ -1,0 +1,171 @@
+\usepackage{blkarray}
+
+\newcommand{\bzero}{{\mathbf 0}}
+\newcommand{\bone}{{\mathbf 1}}
+\newcommand{\ba}{{\mathbf a}}
+\newcommand{\bb}{{\mathbf b}}
+\newcommand{\bc}{{\mathbf c}}
+\newcommand{\bd}{{\mathbf d}}
+\newcommand{\be}{{\mathbf e}}
+\newcommand{\bff}{{\mathbf f}}
+\newcommand{\bg}{{\mathbf g}}
+\newcommand{\bh}{{\mathbf h}}
+\newcommand{\bi}{{\mathbf i}}
+\newcommand{\bj}{{\mathbf j}}
+\newcommand{\bk}{{\mathbf k}}
+\newcommand{\bl}{{\mathbf l}}
+\newcommand{\bmm}{{\mathbf m}}
+\newcommand{\bn}{{\mathbf n}}
+\newcommand{\bo}{{\mathbf o}}
+\newcommand{\bp}{{\mathbf p}}
+\newcommand{\bq}{{\mathbf q}}
+\newcommand{\br}{{\mathbf r}}
+\newcommand{\bs}{{\mathbf s}}
+\newcommand{\bt}{{\mathbf t}}
+\newcommand{\bu}{{\mathbf u}}
+\newcommand{\bv}{{\mathbf v}}
+\newcommand{\bw}{{\mathbf w}}
+\newcommand{\bx}{{\mathbf x}}
+\newcommand{\by}{{\mathbf y}}
+\newcommand{\bz}{{\mathbf z}}
+\newcommand{\bA}{{\mathbf A}}
+\newcommand{\bB}{{\mathbf B}}
+\newcommand{\bC}{{\mathbf C}}
+\newcommand{\bD}{{\mathbf D}}
+\newcommand{\bE}{{\mathbf E}}
+\newcommand{\bF}{{\mathbf F}}
+\newcommand{\bG}{{\mathbf G}}
+\newcommand{\bH}{{\mathbf H}}
+\newcommand{\bI}{{\mathbf I}}
+\newcommand{\bJ}{{\mathbf J}}
+\newcommand{\bK}{{\mathbf K}}
+\newcommand{\bL}{{\mathbf L}}
+\newcommand{\bM}{{\mathbf M}}
+\newcommand{\bN}{{\mathbf N}}
+\newcommand{\bO}{{\mathbf O}}
+\newcommand{\bP}{{\mathbf P}}
+\newcommand{\bQ}{{\mathbf Q}}
+\newcommand{\bR}{{\mathbf R}}
+\newcommand{\bS}{{\mathbf S}}
+\newcommand{\bT}{{\mathbf T}}
+\newcommand{\bU}{{\mathbf U}}
+\newcommand{\bV}{{\mathbf V}}
+\newcommand{\bW}{{\mathbf W}}
+\newcommand{\bX}{{\mathbf X}}
+\newcommand{\bY}{{\mathbf Y}}
+\newcommand{\bZ}{{\mathbf Z}}
+\newcommand{\balpha}{{\boldsymbol\alpha}}
+\newcommand{\bbeta}{{\boldsymbol\beta}}
+\newcommand{\bgamma}{{\boldsymbol\gamma}}
+\newcommand{\bdelta}{{\boldsymbol\delta}}
+\newcommand{\bepsilon}{{\boldsymbol\epsilon}}
+\newcommand{\bvarepsilon}{{\boldsymbol\varepsilon}}
+\newcommand{\bzeta}{{\boldsymbol\zeta}}
+\newcommand{\bfeta}{{\boldsymbol\eta}}
+\newcommand{\boldeta}{{\boldsymbol\eta}}
+\newcommand{\btheta}{{\boldsymbol\theta}}
+\newcommand{\bvartheta}{{\boldsymbol\vartheta}}
+\newcommand{\biota}{{\boldsymbol\iota}}
+\newcommand{\bkappa}{{\boldsymbol\kappa}}
+\newcommand{\blambda}{{\boldsymbol\lambda}}
+\newcommand{\bmu}{{\boldsymbol\mu}}
+\newcommand{\bnu}{{\boldsymbol\nu}}
+\newcommand{\bxi}{{\boldsymbol\xi}}
+\newcommand{\bpi}{{\boldsymbol\pi}}
+\newcommand{\bvarpi}{{\boldsymbol\varpi}}
+\newcommand{\brho}{{\boldsymbol\rho}}
+\newcommand{\bvarrho}{{\boldsymbol\varrho}}
+\newcommand{\bsigma}{{\boldsymbol\sigma}}
+\newcommand{\bvarsigma}{{\boldsymbol\varsigma}}
+\newcommand{\btau}{{\boldsymbol\tau}}
+\newcommand{\bupsilon}{{\boldsymbol\upsilon}}
+\newcommand{\bphi}{{\boldsymbol\phi}}
+\newcommand{\bvarphi}{{\boldsymbol\varphi}}
+\newcommand{\bchi}{{\boldsymbol\chi}}
+\newcommand{\bpsi}{{\boldsymbol\psi}}
+\newcommand{\bomega}{{\boldsymbol\omega}}
+\newcommand{\bGamma}{{\boldsymbol\Gamma}}
+\newcommand{\bDelta}{{\boldsymbol\Delta}}
+\newcommand{\bTheta}{{\boldsymbol\Theta}}
+\newcommand{\bLambda}{{\boldsymbol\Lambda}}
+\newcommand{\bXi}{{\boldsymbol\Xi}}
+\newcommand{\bPi}{{\boldsymbol\Pi}}
+\newcommand{\bSigma}{{\boldsymbol\Sigma}}
+\newcommand{\bUpsilon}{{\boldsymbol\Upsilon}}
+\newcommand{\bPhi}{{\boldsymbol\Phi}}
+\newcommand{\bPsi}{{\boldsymbol\Psi}}
+\newcommand{\bOmega}{{\boldsymbol\Omega}}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\Prob}{P}
+\DeclareMathOperator{\E}{E}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\Cov}{Cov}
+\DeclareMathOperator{\Corr}{Corr}
+\DeclareMathOperator{\sd}{sd}
+\DeclareMathOperator{\se}{se}
+\DeclareMathOperator{\N}{N}
+\DeclareMathOperator{\Bin}{Bin}
+\DeclareMathOperator{\Bern}{Bern}
+\DeclareMathOperator{\Dir}{Dir}
+\DeclareMathOperator{\Wis}{Wis}
+\DeclareMathOperator{\logit}{logit}
+\DeclareMathOperator{\expit}{expit}
+\DeclareMathOperator{\Mult}{Mult}
+\DeclareMathOperator{\Cat}{Cat}
+\DeclareMathOperator{\Pois}{Poi}
+\DeclareMathOperator{\Geom}{Geom}
+\DeclareMathOperator{\NBin}{NBin}
+\DeclareMathOperator{\Exp}{Exp}
+\DeclareMathOperator{\Betadist}{Beta}
+\DeclareMathOperator{\Hypergeom}{Hypergeom}
+\DeclareMathOperator{\Cauchy}{Cauchy}
+\DeclareMathOperator{\hCauchy}{half-Cauchy}
+\DeclareMathOperator{\LKJ}{LKJ}
+\DeclareMathOperator{\Unif}{Unif}
+\DeclareMathOperator{\KL}{KL}
+\DeclareMathOperator{\ind}{\mathds{1}}
+\newcommand{\iid}{\,\overset{\text{iid}}{\sim}\,}
+\DeclareMathOperator*{\plim}{plim}
+\DeclareMathOperator{\Lik}{L}
+\DeclareMathOperator{\argmax}{argmax}
+\DeclareMathOperator{\vecc}{vec}
+\DeclareMathOperator{\dd}{d}
+\newcommand{\dint}{\dd\hspace{0.5pt}\!}
+
+\newcommand{\bbR}{\mathbb{R}}
+\newcommand{\bbN}{\mathbb{N}}
+\newcommand{\bbZ}{\mathbb{Z}}
+\newcommand{\bbC}{\mathbb{C}}
+\newcommand{\bbS}{\mathbb{S}}
+\newcommand{\bbH}{\mathbb{H}}
+\newcommand{\bbP}{\mathbb{P}}
+
+\newcommand{\cA}{{\mathcal A}}
+\newcommand{\cB}{{\mathcal B}}
+\newcommand{\cC}{{\mathcal C}}
+\newcommand{\cD}{{\mathcal D}}
+\newcommand{\cE}{{\mathcal E}}
+\newcommand{\cF}{{\mathcal F}}
+\newcommand{\cG}{{\mathcal G}}
+\newcommand{\cH}{{\mathcal H}}
+\newcommand{\cI}{{\mathcal I}}
+\newcommand{\cJ}{{\mathcal J}}
+\newcommand{\cK}{{\mathcal K}}
+\newcommand{\cL}{{\mathcal L}}
+\newcommand{\cM}{{\mathcal M}}
+\newcommand{\cN}{{\mathcal N}}
+\newcommand{\cO}{{\mathcal O}}
+\newcommand{\cP}{{\mathcal P}}
+\newcommand{\cQ}{{\mathcal Q}}
+\newcommand{\cR}{{\mathcal R}}
+\newcommand{\cS}{{\mathcal S}}
+\newcommand{\cT}{{\mathcal T}}
+\newcommand{\cU}{{\mathcal U}}
+\newcommand{\cV}{{\mathcal V}}
+\newcommand{\cW}{{\mathcal W}}
+\newcommand{\cX}{{\mathcal X}}
+\newcommand{\cY}{{\mathcal Y}}
+\newcommand{\cZ}{{\mathcal Z}}
+
+\newcommand{\myoverbrace}[3][gray]{{\color{#1}\overbrace{\color{black}#2}^{#3}}}
+\newcommand{\myunderbrace}[3][gray]{{\color{#1}\underbrace{\color{black}#2}_{#3}}}
