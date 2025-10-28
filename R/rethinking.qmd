@@ -1,0 +1,138 @@
+---
+title: "Rethinking identification in factor models"
+authors:
+  - Haziq Jamil
+  - Håvard Rue
+format:
+  html: default
+---
+
+## A geometric and Bayesian perspective
+
+The classical treatment of factor models assumes that identification must be achieved by fixing one loading or by setting the variance of the latent factor to unity. 
+This convention, though practical, is philosophically unsatisfying. 
+The decision of which loading to fix is inherently arbitrary and leads to latent variances that are purely a byproduct of this choice. 
+From a Bayesian standpoint, where all unknowns are random and uncertainty is propagated rather than constrained, such anchoring represents an unnecessary distortion of the parameter space.
+
+Let $y_s$ be a $p$-dimensional observed variable vector for subject $s$, and let $\eta_s$ be a $q$-dimensional latent factor vector.
+Consider a simple one-factor model
+$$
+\begin{aligned}
+y_s = \Lambda \eta_s + \epsilon_s\\ 
+\eta_s \sim \mathcal{N}_1(0, \psi)\\
+\epsilon_s \sim \mathcal{N}_p(0, \Theta)\\
+\end{aligned}
+$$
+where $\Lambda$ is a $p \times 1$ vector of loadings, $\psi$ is the variance of the latent factor, and $\Theta$ is a matrix of residual variances, often diagonal.
+The model-implied covariance matrix of $y_s$ is
+$$
+\operatorname{Var}(y_s) = \psi \Lambda \Lambda^\top + \Theta =: \Sigma_y.
+$$
+
+The likelihood is invariant under the transformation $(\Lambda, \Psi) \mapsto (c^{-1}\Lambda, c^2 \Psi)$ for some constant $c\in\mathbb R$, which implies that the product $\psi\Lambda \Lambda^\top$ is identifiable, but the individual components are not. 
+Traditional identification constraints---such as fixing one loading (anchoring) or standardising the latent variance---merely select one *coordinate system* among infinitely many equivalent ones. 
+They do not resolve the fundamental non-identifiability; they only conceal it.
+
+A more principled approach recognises that this invariance is a scaling symmetry of the model, and that the indeterminacy lies entirely in the joint scale of $\Lambda$ and $\psi$. 
+In other words, an inspection of the model-implied covariance matrix $\Sigma_y$ reveals that only the outer product matters, i.e. the direction of $\Lambda$, but not its magnitude.
+In this spirit, we should normalise the Euclidean norm of $\Lambda$, $\Vert\Lambda\Vert^2 = 1$, so that the scaling information is transferred entirely to $\psi$.
+From a geometric viewpoint, this representation ensures the vector of *standardised* loadings $\tilde\Lambda := \Lambda / \sqrt{\psi}$ lies on the unit sphere $\mathcal S^{p-1}$, and the latent variance $\psi$ serves as a radial parameter controlling the overall strength of the factor.
+The model-implied covariance then becomes
+$$
+\Sigma_y = \psi\tilde\Lambda \tilde\Lambda^\top + \Theta, \quad\text{with } \Vert\tilde\Lambda\Vert^2 = 1,
+$$
+which is now uniquely determined by the direction^[Identifiability up to a global sign, which is unavoidable.] $\tilde\Lambda$ and radius $\psi$.
+
+This parameterisation ensures that all information about *relative* importance among indicators, i.e. which variables "load higher" on the factor, is fully contained in $\tilde\Lambda$. 
+The latent variance $\psi$ then quantifies the overall contribution of the factor to the observed variance, independent of direction (rescales all loadings equally).
+This has the nice interpretation that relative loadings are invariant.
+Suppose two variables have standardised loadings $\tilde\lambda_1=0.8$ and $\tilde\lambda_2=0.2$. 
+Then even if $\psi$ changes, their ratio
+$$
+\frac{\lambda_1}{\lambda_2} = \frac{\tilde\lambda_1 \sqrt{\psi}}{\tilde\lambda_2 \sqrt{\psi}} = \frac{\tilde\lambda_1}{\tilde\lambda_2}
+$$
+remains constant. 
+So all *directional* comparisons (which variables are more strongly related to the latent factor) are invariant to scaling.
+This geometric decomposition into *direction* and *scale* has immediate Bayesian appeal.
+A spherically symmetric prior on $\Lambda$, such as $\Lambda\sim\mathcal N(0,\tau^2 I)$, induces a uniform prior on the sphere for $\tilde\Lambda$, representing complete prior ignorance about the factor’s orientation. 
+Any directional belief (e.g., expecting all loadings to be positive or concentrated around a certain variable) can be introduced naturally via a von Mises-Fisher prior on $\tilde{\Lambda}$, via
+$$
+p(\tilde{\Lambda}\mid \kappa,\mu) \propto \exp(\kappa \cdot \mu^\top \tilde{\Lambda}),
+$$
+where $\mu$ is the preferred direction and $\kappa$ controls its concentration.
+The separation of direction and scale thus permits meaningful prior specification without arbitrary hard constraints.
+
+This reparameterization also clarifies the role of identification in approximate Bayesian inference. 
+By expressing the model in terms of $(\tilde{\Lambda}, \Psi)$, the posterior becomes regular in all parameters, avoiding flat ridges or singularities associated with unanchored scaling transformations. 
+Approximation methods such as the Laplace approximation or INLA can then operate on a well-behaved parameter manifold, ensuring numerical stability while preserving interpretability.
+
+## Multiple factors
+
+The idea generalises to multiple factors.
+
+- Now the variance is $\Sigma_y = \Lambda\Psi\Lambda^\top + \Theta$.
+
+- When $\Psi$ is unrestricted, the model remains invariant under any orthogonal rotation $R$, i.e., $(\Lambda, \Psi) \mapsto (\Lambda R^\top, R \Psi R^\top)$.
+
+- We need something like $\Lambda =\Psi^{1/2}\tilde\Lambda$ where $\tilde\Lambda$ has orthonormal columns, i.e. $\tilde\Lambda^\top \tilde\Lambda = I$. Stiefel manifold?
+
+- Then $\Sigma_y = \tilde\Lambda\Psi\tilde\Lambda^\top + \Theta$ with $\tilde\Lambda$ orthonormal.
+
+- Priors???
+
+## Conclusion
+
+In summary, identification in factor analysis should not be achieved through arbitrary anchoring but through reparameterization that respects the model’s inherent geometry. 
+The conventional practice of fixing one loading is a vestige of algebraic convenience, whereas the spherical–radial decomposition provides a conceptually cleaner and computationally stable foundation for Bayesian and approximate inference alike.
+It reframes identification not as an imposed constraint, but as a choice of coordinate system—one that can be handled transparently and symmetrically within the model’s own structure.
+
+## More arguments in favour of spherical-radial reparameterisation {.appendix}
+
+1. Fixing one loading (say $\lambda_1=1$) arbitrarily privileges one variable as the reference for the latent factor. This choice can distort inference if that variable is not truly representative of the underlying construct. The spherical-radial approach treats all variables symmetrically, avoiding such biases in any one direction.
+
+2. Fixing the variance achors the latent variable scale, and the loadings absorb all scaling information and breaks rotational symmetry by design (since factor scale is fixed, loadings can vary arbitrarily in magnitude).  The spherical parameterisation anchors the loading vector's scale. The latent variance absorbs the overall scaling and thus retains isotropy
+
+3. If the latent scale is fixed, there may be potentially prior imbalance in Bayesian settings if $\Lambda$ has element-wise priors. On the other hand, the spherical parameterisation naturally matches spherical priors and stabilises the posterior surface.
+
+## Jacobian of the Spherical-Radial Transformation {.appendix}
+
+Let $\Lambda \in \mathbb{R}^p$ and define the transformation
+$$
+\Lambda = r  \tilde{\Lambda}, \quad r > 0, \quad \tilde{\Lambda} \in S^{p-1}.
+$$
+We then express the prior (or the density component of the posterior) in terms of $(r, \tilde{\Lambda})$.
+
+The Jacobian determinant for the transformation from Cartesian to spherical coordinates in $\mathbb R^p$ is
+$$
+\left|\frac{\partial \Lambda}{\partial (r, \tilde{\Lambda})}\right| = r^{p-1}.
+$$
+Therefore, if the original prior factorizes as $p(\Lambda) \propto f(\|\Lambda\|)$, then the induced joint density is
+$$
+p(r, \tilde{\Lambda}) \propto f(r)\, r^{p-1},
+$$
+and the marginal for $\tilde{\Lambda}$ is uniform on the sphere $\mathcal S^{p-1}$.
+
+This shows that:
+
+- A spherically symmetric prior on $\Lambda$ automatically implies a uniform prior on direction; and
+- The "sum of squares = 1" constraint simply corresponds to fixing the direction component and treating $r$ as the free scaling parameter.
+
+The transformation is smooth and one-to-one for $r>0$, so the posterior under the reparameterised form is mathematically equivalent (up to normalization).
+It also yields a well-behaved precision matrix for Laplace approximations, since the singular scaling ridge has been integrated out analytically.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

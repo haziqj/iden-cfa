@@ -1,0 +1,357 @@
+---
+title: "Directional ridge in factor analysis"
+authors:
+  - Haziq Jamil
+  - Håvard Rue
+format:
+  html: default
+editor_options: 
+  chunk_output_type: console
+---
+
+In a one-factor setting, consider for $i=1,\dots,p$ items the relationship
+$$
+\begin{align*}
+y_i = \lambda_i \eta + \epsilon_i \\
+\eta \sim \mathcal{N}(0, \psi)\\
+\epsilon_i \sim \mathcal{N}(0, \theta_i)\\
+\end{align*}
+$$
+For clarity, take just one loading $\lambda$ and one factor variance $\psi$.
+The model-implied variance of $y$ is
+$$
+\operatorname{Var}(y) = \psi \lambda^2 + \theta.
+$$
+For further simplicity, drop the residual 1 (it just shifts things).
+Focus on the product $q=\psi \lambda^2$.
+
+The likelihood in terms of $(\lambda,\psi)$ is
+$$
+L(\lambda,\psi) \propto \exp\left(-\frac{1}{2}\sum_{s=1}^n \frac{y_s^2}{\psi \lambda^2 + \theta}\right).
+$$
+The likelihood is invariant under the transformation $(\lambda, \psi) \mapsto (c^{-1}\lambda, c^2 \psi)$ for some constant $c\in\mathbb R$, which implies that the product $\psi\lambda^2$ is identifiable, but the individual components are not.
+This creates a ridge: 
+All combinations of $(\lambda,\psi)$ that yield the same product $q=\psi \lambda^2$ have the same likelihood.
+This is a hyperbola in the $(\lambda,\psi)$-plane: $\psi = q/\lambda^2$.
+So on a plot with $\lambda$ on the x-axis and $\psi$ on the y-axis, the ridge runs from NE to SW (downward-sloping curve).
+Every point on that curve gives the same model covariance, hence the same likelihood.
+The flat direction is *along* that curve.
+
+```{r}
+set.seed(123)
+mod <- "
+  f =~ y1 + y2 + y3 + y4 + y5
+  y1 ~~ 0.1*y1  # more reliable
+  y2 ~~ 0.1*y2
+  y3 ~~ 0.3*y3
+  y4 ~~ 0.4*y4
+  y5 ~~ 0.5*y5  # less reliable
+"
+n <- 250
+dat <- lavaan::simulateData(mod, sample.nobs = n)
+S <- cov(dat)
+
+dmvnorm0 <- function(Sigma) {
+  L <- try(chol(Sigma), silent = TRUE)
+  if (inherits(L, "try-error")) return(-Inf)
+  logdet <- 2 * sum(log(diag(L)))
+  # Trace term via solves: tr(S Sigma^{-1}) = sum((L^{-1} S L^{-T}))
+  X <- backsolve(L, t(backsolve(L, S, transpose = TRUE)), transpose = TRUE)
+  tr_term <- sum(diag(X))
+  -0.5 * n * (logdet + tr_term)
+}
+
+loglik <- function(lambda, logpsi, i = 1) {
+
+  psi <- exp(logpsi)
+  
+  # Profile the likelihood for loading i
+  fn <- function(par) {
+    theta <- exp(par[1:5])
+    lambdavec <- numeric(5)
+    lambdavec[-i] <- par[6:9]
+    lambdavec[i] <- lambda
+    Lambda <- matrix(lambdavec, ncol = 1)
+    Sigmay <- psi * (Lambda %*% t(Lambda)) + diag(theta)
+    -1 * dmvnorm0(Sigmay)
+  }
+  opt <- nlminb(c(log(c(0.1, 0.1, 0.3, 0.4, 0.5)), rep(1, 4)), fn)
+  -1 * opt$objective
+}
+
+library(furrr)
+plan(multisession, workers = 14)
+
+plot_df <-
+  expand_grid( 
+    lambda = seq(0.01, 3, length.out = 100),
+    logpsi = seq(-5, 6, length.out = 100)
+  ) |>
+  mutate(ll = future_map2_dbl(
+    .x = lambda,
+    .y = logpsi,
+    .f = function(lambda, logpsi) loglik(lambda, logpsi, i = 1),
+    .progress = TRUE
+  ))  
+
+p1 <- 
+  ggplot(plot_df, aes(lambda, logpsi)) +
+  geom_raster(aes(fill = ll)) +
+  geom_contour(aes(z = ll), col = "white") +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "red3") +
+  geom_vline(xintercept = 1, linetype = "dashed", color = "red3") +
+  scale_fill_viridis_c() +
+  scale_y_continuous(expand = c(0, 0)) +
+  scale_x_continuous(expand = c(0, 0)) +
+  labs(
+    # title = expression("Profile log-likelihood surface over ("*lambda[1]*", "*psi*")"),
+    x = expression(lambda[1]),
+    y = expression(log(psi)),
+    fill = "Log-likelihood"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none") 
+
+p2 <-
+  plot_df |>
+  mutate(disto1 = (lambda - 1) ^ 2) |>
+  filter(disto1 == min(disto1)) |>
+  ggplot(aes(logpsi, ll)) +
+  geom_line() + 
+  theme_void() +
+  # theme_minimal() +
+  coord_flip(xlim = c(-5.9, 5.6))
+
+p3 <-
+  plot_df |>
+  mutate(disto1 = (logpsi - 0) ^ 2) |>
+  filter(disto1 == min(disto1)) |>
+  ggplot(aes(lambda, ll)) +
+  geom_line() + 
+  theme_void() +
+  coord_cartesian(xlim = c(-0.13, 2.9))
+  # theme_minimal() +
+  # coord_flip(xlim = c(-5.2, 5.6))
+
+cowplot::plot_grid(p3, NA, p1, p2, nrow = 2, rel_widths = c(1, 0.1), rel_heights = c(0.18, 1))
+ggsave("figures/ridge_weak_strong.png", width = 8, height = 4)
+```
+
+
+
+
+
+
+```{r}
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+
+# --------- simulate a toy 1-factor dataset ----------
+set.seed(123)
+p <- 5
+mod <- "
+  f =~ y1 + y2 + y3 + y4 + y5
+  y1 ~~ 0.1*y1
+  y2 ~~ 0.2*y2
+  y3 ~~ 0.3*y3
+  y4 ~~ 0.4*y4
+  y5 ~~ 0.8*y5
+"
+dat <- lavaan::simulateData(mod, sample.nobs = 1000)
+Y   <- as.matrix(dat)
+n   <- nrow(Y)
+S   <- cov(Y)
+
+# --------- core likelihood from sufficient stats ----------
+# Zero-mean MVN loglik:  -n/2 [ log|Sigma| + tr(S Sigma^{-1}) ]  + const
+ll_from_S <- function(S, n, Sigma) {
+  L <- try(chol(Sigma), silent = TRUE)
+  if (inherits(L, "try-error")) return(-Inf)
+  logdet <- 2 * sum(log(diag(L)))
+  # Trace term via solves: tr(S Sigma^{-1}) = sum((L^{-1} S L^{-T}))
+  X <- backsolve(L, t(backsolve(L, S, transpose = TRUE)), transpose = TRUE)
+  tr_term <- sum(diag(X))
+  -0.5 * n * (logdet + tr_term)
+}
+
+# --------- build Sigma from (Lambda, psi, theta) ----------
+Sigma_from_params <- function(Lambda, psi, theta) {
+  psi * tcrossprod(Lambda) + diag(theta)
+}
+
+# --------- pack/unpack helpers to optimize nuisance params ----------
+# We work in unconstrained space: log(theta), log(psi), and free loadings.
+reconstruct_params <- function(par, p = 5, anchor, fixed) {
+  # fixed: list with any of lambda_j / psi / theta_j fixed values (on natural scale)
+  idx_free_load <- setdiff(seq_len(p), c(anchor, fixed$lambda_index))
+  n_free_load   <- length(idx_free_load)
+  o <- 0
+  # loadings (except anchor and possibly the profiled one)
+  load_free <- if (n_free_load > 0) par[(o+1):(o+n_free_load)] else numeric(0); o <- o + n_free_load
+  # log theta
+  log_theta <- par[(o+1):(o+p)]; o <- o + p
+  # log psi
+  log_psi <- par[o+1]
+
+  Lambda <- rep(NA_real_, p)
+  Lambda[anchor] <- 1.0
+  if (!is.null(fixed$lambda_index)) Lambda[fixed$lambda_index] <- fixed$lambda_value
+  if (n_free_load > 0) Lambda[idx_free_load] <- load_free
+
+  theta <- exp(log_theta)
+  psi   <- exp(log_psi)
+  if (!is.null(fixed$psi_value))   psi <- fixed$psi_value
+  if (!is.null(fixed$theta_index)) theta[fixed$theta_index] <- fixed$theta_value
+
+  list(Lambda = Lambda, theta = theta, psi = psi)
+}
+
+# Negative loglik to feed optim, with selected param fixed on grid:
+nll_given_fixed <- function(par, S, n, p = NULL, anchor, fixed) {
+  if (is.null(p)) p <- ncol(S)
+  prm <- reconstruct_params(par, p, anchor, fixed)
+  Sigma <- prm$psi * tcrossprod(prm$Lambda) + diag(prm$theta)
+  # ll from sufficient stats
+  L <- try(chol(Sigma), silent = TRUE)
+  if (inherits(L, "try-error")) return(1e12)  # soft barrier if not PD
+  logdet <- 2 * sum(log(diag(L)))
+  X <- backsolve(L, t(backsolve(L, S, transpose = TRUE)), transpose = TRUE)
+  tr_term <- sum(diag(X))
+  +0.5 * n * (logdet + tr_term)  # return NEGATIVE loglik for minimization
+}
+
+
+# Get sensible starting values (one quick ML-ish fit under the chosen anchor)
+start_from_S <- function(S, anchor) {
+  # crude: start all non-anchor loadings at 0.8, log(theta) from diag(S), log(psi)=0
+    p <- ncol(S)
+
+  load_init <- rep(0.8, p)
+  load_init[anchor] <- 1.0
+  log_theta_init <- log(pmax(diag(S) * 0.5, 1e-3))
+  c(load_init[-anchor], log_theta_init, 0)  # pack without the anchor load
+}
+
+# --------- generic profile function ----------
+# param_type in {"lambda","psi","theta"}
+# For lambda: set j (j != anchor) via param_index; for theta likewise.
+profile_param <- function(S, n, anchor, param_type = c("lambda","psi","theta"),
+                          param_index = NULL, grid_vals,
+                          p = ncol(S)) {
+  param_type <- match.arg(param_type)
+  # define what's fixed on the grid:
+  fixed_template <- list(lambda_index = NULL, lambda_value = NULL,
+                         psi_value = NULL, theta_index = NULL, theta_value = NULL)
+
+  # pack start (with no fixed grid yet)
+  par0_full <- start_from_S(S, anchor)
+
+  # mask out any loading that is anchored or profiled from the free vector count
+  if (param_type == "lambda") {
+    stopifnot(!is.null(param_index), param_index != anchor)
+  }
+
+  # run a quick pre-fit to stabilize nuisance starting values
+  pre_fixed <- fixed_template
+  pre_fit <- optim(par0_full, fn = nll_given_fixed, S = S, n = n, 
+                   anchor = anchor, fixed = pre_fixed,
+                   method = "BFGS", control = list(maxit = 500, reltol = 1e-8))
+  par_init <- pre_fit$par
+
+  # iterate grid and re-optimize nuisances each time
+  out <- lapply(grid_vals, function(val) {
+    
+    fixed <- fixed_template
+    if (param_type == "lambda") {
+      fixed$lambda_index <- param_index
+      fixed$lambda_value <- val
+    } else if (param_type == "psi") {
+      fixed$psi_value <- val
+    } else if (param_type == "theta") {
+      fixed$theta_index <- param_index
+      fixed$theta_value <- val
+    }
+    fit <- optim(par_init, fn = nll_given_fixed, S = S, n = n, 
+                 anchor = anchor, fixed = fixed,
+                 method = "BFGS", control = list(maxit = 800, reltol = 1e-8))
+    # warm start next grid point
+    par_init <<- fit$par
+    # reconstruct params at this grid optimum for reference
+    prm <- reconstruct_params(fit$par, p, anchor, fixed)
+    data.frame(
+      anchor = anchor,
+      param_type = param_type,
+      param_index = if (is.null(param_index)) NA_integer_ else param_index,
+      grid_value = val,
+      ll = -fit$value,
+      psi = prm$psi,
+      theta_index = if (is.null(param_index)) NA_integer_ else param_index,
+      stringsAsFactors = FALSE
+    )
+  })
+  do.call(rbind, out)
+}
+
+# --------- EXAMPLES --------------------------------------------------------
+
+# 1) Profile the unreliable loading lambda_5 under two anchors
+lambda_grid <- seq(0.05, 2.5, length.out = 80)
+prof_l5_a1 <- profile_param(S, n, anchor = 1, param_type = "lambda",
+                            param_index = 5, grid_vals = lambda_grid)
+prof_l5_a3 <- profile_param(S, n, anchor = 3, param_type = "lambda",
+                            param_index = 5, grid_vals = lambda_grid)
+prof_l5 <- bind_rows(prof_l5_a1, prof_l5_a3) %>%
+  mutate(anchor = factor(anchor, levels = c(1,3),
+                         labels = c("Anchor y1 (more reliable)", "Anchor y3 (mid)")))
+
+ggplot(prof_l5, aes(grid_value, ll)) +
+  geom_line() +
+  labs(x = expression(lambda[5]), y = "Profile log-likelihood",
+       title = expression("Profile of "~lambda[5]~" under different anchors")) +
+  facet_grid(. ~ anchor) +
+  theme_minimal()
+
+# 2) Profile psi under different anchors (this shows the “sharp ψ under weak anchor” effect)
+psi_grid <- exp(seq(log(0.05), log(5), length.out = 80))
+prof_psi_a1 <- profile_param(S, n, anchor = 1, param_type = "psi", grid_vals = psi_grid)
+prof_psi_a5 <- profile_param(S, n, anchor = 5, param_type = "psi", grid_vals = psi_grid)
+prof_psi <- bind_rows(prof_psi_a1, prof_psi_a5) %>%
+  mutate(anchor = factor(anchor, levels = c(1,5),
+                         labels = c("Anchor y1 (more reliable)", "Anchor y5 (less reliable)")))
+
+ggplot(prof_psi, aes(grid_value, ll)) +
+  geom_line() +
+  scale_x_log10() +
+  labs(x = expression(psi), y = "Profile log-likelihood",
+       title = expression("Profile of "~psi~" under different anchors")) +
+  theme_minimal() +
+  facet_grid(. ~ anchor)
+
+# 3) Profile another loading (e.g., lambda_2) under different anchors
+lambda2_grid <- seq(0.2, 2.5, length.out = 80)
+prof_l2_a1 <- profile_param(S, n, anchor = 1, param_type = "lambda",
+                            param_index = 2, grid_vals = lambda2_grid)
+prof_l2_a5 <- profile_param(S, n, anchor = 5, param_type = "lambda",
+                            param_index = 2, grid_vals = lambda2_grid)
+prof_l2 <- bind_rows(prof_l2_a1, prof_l2_a5) %>%
+  mutate(anchor = factor(anchor, levels = c(1,5),
+                         labels = c("Anchor y1 (more reliable)", "Anchor y5 (less reliable)")))
+
+ggplot(prof_l2, aes(grid_value, ll)) +
+  geom_line() +
+  labs(x = expression(lambda[2]), y = "Profile log-likelihood",
+       title = expression("Profile of "~lambda[2]~" under different anchors")) +
+  theme_minimal() +
+  facet_grid(. ~ anchor)
+```
+
+
+
+
+
+
+
+
+
+
