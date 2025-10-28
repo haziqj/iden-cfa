@@ -1,0 +1,89 @@
+\documentclass[
+$if(fontsize)$
+  $fontsize$,
+$endif$
+$if(year)$
+year=$year$,
+$endif$
+$if(volume)$
+volume=$volume$,
+$endif$
+$if(journal)$
+journal=$journal$,
+$endif$
+$for(classoption)$
+  $classoption$$sep$,
+$endfor$
+]{cup-journal}
+
+\makeatletter
+\ifPDFTeX\else
+  \renewcommand{\simfonts}{%
+    % (put your unicode-math + setmainfont + setmathfont block here)
+  }%
+\fi
+\makeatother
+
+% === Anonymize toggle ===============================================
+\newif\ifanonymize
+$if(anonymous)$
+\anonymizetrue 
+$endif$
+% ====================================================================
+
+\ifanonymize
+  \makeatletter
+  % Remove author block (names, affiliations, emails) below the title
+  \renewcommand*\cup@author@list{}%
+  \renewcommand*\cup@address@list{}%
+  \renewcommand*\cup@contact@details{}%
+
+  % Blank out "Author et al." that CUP puts in even-page headers
+  \def\@author@i{}%
+  \renewcommand*\cup@etal{}%
+
+  % Re-define plain pagestyle to avoid referencing author macros
+  \def\ps@plain{%
+    \renewcommand{\@oddhead}{\hfill{\journalnamefont\cup@journal@name}\qquad\thepage}%
+    \renewcommand{\@evenhead}{\thepage\hfill}%
+    \renewcommand{\@evenfoot}{}%
+    \renewcommand{\@oddfoot}{\@evenfoot}%
+  }
+  \pagestyle{plain}
+
+  % Optional: print a neutral placeholder under the title (comment if not wanted)
+  % \AtBeginDocument{%
+  %   \gdef\cup@author@list{\textbf{Anonymous authors}}%
+  % }
+
+  % Optional: sanitize PDF metadata (hyperref)
+  \AtBeginDocument{%
+    \@ifpackageloaded{hyperref}{%
+      \hypersetup{pdfauthor={},pdfsubject={},pdfcreator={},pdfproducer={}}
+    }{}%
+  }
+  \makeatother
+\fi
+
+
+% --- Change article type ---
+\makeatletter
+% Extend the allowed manuscript types and keep the default as 'article'
+\cup@validtype[article]{article,communication,suppinfo,Theory and Methods}
+% Set what gets printed above the title
+\def\cup@manuscript{Theory and Methods}
+\makeatother
+
+% --- Affiliation markers as numbers instead of symbols ---
+\makeatletter
+\def\@fnsymbol#1{\@arabic{#1}}% override the symbol cycle with 1,2,3,...
+\makeatother
+
+% If the class resets footnotes at \maketitle, ensure numbering starts at 1:
+\usepackage{etoolbox}
+\pretocmd{\maketitle}{\setcounter{footnote}{0}}{}{}
+
+% Change author running head
+\makeatletter
+  \renewcommand*\cup@etal{and Håvard Rue}%
+\makeatother

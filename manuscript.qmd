@@ -1,5 +1,5 @@
 ---
-title: 'A title'
+title: 'Confirmatory Factor Analysis Identification by Spherical Geometry'
 authors:
   - name: Haziq Jamil
     orcid: 0000-0003-3298-1010
@@ -9,12 +9,11 @@ authors:
     affiliations:
       - ref: kaust
       - ref: ubd
-  - name: Another Coauthor
-    orcid: 0000-0003-3298-1010
-    email: a.coauthor@uni.edu.sa
-    url: 'https://haziqj.ml'
+  - name: Håvard Rue
+    orcid: 0000-0002-0222-1881
+    url: 'https://cemse.kaust.edu.sa/profiles/haavard-rue'
     affiliations:
-      - ref: lse    
+      - ref: kaust    
 affiliations:
   - name: King Abdullah University of Science and Technology
     id: kaust
@@ -48,37 +47,20 @@ keywords:
 manuscript-url: https://haziqj.ml/
 bibliography: refs.bib
 csl: apa.csl
-nocite: |
-  @*
 ---
 
 {{< include _extensions/_maths_shortcuts.qmd >}}
 
 ## Introduction
 
-The structural equation models are
-$$
-\begin{aligned}
-  \by &= \bnu + \bLambda \bfeta + \bepsilon \\
-  \bfeta &= \balpha + \bB \bfeta  + \bzeta \\
-  \bepsilon &\sim \N(\bzero, \bTheta_{\bepsilon}) \\
-  \bzeta &\sim \N(\bzero, \bPsi) \\
-\end{aligned}
-$${#eq-sem}
+## Literature Review
 
-where $\bLambda$ is the factor loading matrix, $\bfeta$ is the latent variable vector, $\bepsilon$ is the measurement error vector, $\bnu$ is the intercept vector, $\balpha$ is the intercept vector for the latent variables, $\bB$ is the regression coefficient matrix for the latent variables, and $\bTheta_{\bepsilon}$ and $\bPsi$ are the covariance matrices of the measurement errors and latent variables, respectively.
-The model defined by @eq-sem is very nice.
-
-## Methods
-
-{{< include _methods.qmd >}}
+## 
 
 ## References {.unnumbered}
 
 ::: {#refs}
 :::
 
-## Appendix {.unnumbered}
-
-{{< include _appendix.qmd >}}
+## Appendix {.appendix .unnumbered}
 
