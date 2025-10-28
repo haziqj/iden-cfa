@@ -1,0 +1,850 @@
+---
+title: "SEM Stuff I'm working on right now"
+# subtitle: BAYESCOMP Group Seminars
+format:
+  kaust-revealjs:
+    slide-level: 2
+    transition: fade
+    auto-stretch: false
+    width: 1250  # 1050
+    height: 760  # 700
+    self-contained: false
+    chalkboard: true
+    toc: false
+    toc-depth: 1
+    # multiplex: true
+    code-block-height: 700px
+    # html-table-processing: none
+author:
+  - name: Haziq Jamil
+    orcid: 0000-0003-3298-1010
+    affiliations: 
+      - 'Research Specialist, BAYESCOMP @ CEMSE-KAUST'
+      - '<span style="font-style:normal;">[`https://haziqj.ml/sembias-gradsem/`](https://haziqj.ml/sembias-gradsem/)</span>'
+date: 2025-10-28
+bibliography: ../refs.bib
+execute:
+  echo: false
+  freeze: auto
+  cache: true
+editor_options: 
+  chunk_output_type: console
+---
+
+## Motivating example
+
+
+
+
+
+### Glycemic control and kidney health
+
+> Does poorer glycemic control lead to greater severity of kidney disease?
+
+
+::: {.columns}
+
+::: {.column width=48%}
+Observe $p=6$ variables for each patient:
+
+```{r}
+#| html-table-processing: none
+library(gt)
+
+vars <- c(
+  '<span class="math inline" style="color:#5284C4">\\\\(y_1\\\\)</span>',
+  '<span class="math inline" style="color:#5284C4">\\\\(y_2\\\\)</span>',
+  '<span class="math inline" style="color:#5284C4">\\\\(y_3\\\\)</span>',
+  '<span class="math inline" style="color:#b10f2e">\\\\(y_4\\\\)</span>',
+  '<span class="math inline" style="color:#b10f2e">\\\\(y_5\\\\)</span>',
+  '<span class="math inline" style="color:#b10f2e">\\\\(y_6\\\\)</span>'
+)
+
+tbl <- data.frame(
+  Variable = vars,
+  Indicator = c("HbA1c", "FPG", "Insulin", "PCr", "ACR", "BUN"),
+  Description = c(
+    "3-month avg. blood glucose",
+    "Fasting plasma glucose",
+    "Fasting insulin level",
+    "Plasma creatinine",
+    "Albumin–creatinine ratio",
+    "Blood urea nitrogen"
+  ),
+  Unit = c("%", "mmol/L", "µU/mL", "µmol/L", "mg/g", "mmol/L"),
+  stringsAsFactors = FALSE
+)
+
+tbl |>
+  gt() |>
+  # tab_header(title = md("**Observed Variables**")) |>
+  cols_label(
+    Variable   = "",
+    Indicator  = "Indicator",
+    Description = "Description",
+    Unit       = "Unit"
+  ) |>
+  fmt_markdown(columns = "Variable") |>
+  tab_options(
+    table.font.size = px(25),
+    table.width = pct(100)
+  ) |>
+  tab_style(
+    style = cell_text(weight = "bold"),
+    locations = cells_column_labels()
+  ) |>
+  opt_table_font(font = list(google_font("Raleway"), default_fonts()))
+```
+
+:::
+
+::: {.column width=2%}
+:::
+
+::: {.column width=50%}
+::: {.fragment}
+::: {.nudge-down}
+"*casewise*" thinking leads to
+$$
+\definecolor{kaustorg}{RGB}{241, 143, 0}
+\definecolor{kausttur}{RGB}{0, 166, 170}
+\definecolor{kaustmer}{RGB}{177, 15, 46}
+\definecolor{kaustgrn}{RGB}{173, 191, 4}
+\definecolor{kaustblu}{RGB}{82, 132, 196}
+\definecolor{kaustpur}{RGB}{156, 111, 174}
+\small
+\begin{align*}
+\textcolor{kaustmer}{y_{4}} &= \beta_0^{(4)} + \beta_1^{(4)} \textcolor{kaustblu}{y_{1}} + \beta_2^{(4)} \textcolor{kaustblu}{y_{2}} + \beta_3^{(4)} \textcolor{kaustblu}{y_{3}} + \epsilon^{(4)} \\
+\textcolor{kaustmer}{y_{5}} &= \beta_0^{(5)} + \beta_1^{(5)} \textcolor{kaustblu}{y_{1}} + \beta_2^{(5)} \textcolor{kaustblu}{y_{2}} + \beta_3^{(5)} \textcolor{kaustblu}{y_{3}} + \epsilon^{(5)} \\
+\textcolor{kaustmer}{y_{6}} &= \beta_0^{(6)} + \beta_1^{(6)} \textcolor{kaustblu}{y_{1}} + \beta_2^{(6)} \textcolor{kaustblu}{y_{2}} + \beta_3^{(6)} \textcolor{kaustblu}{y_{3}} + \epsilon^{(6)} \\
+\end{align*}
+$$
+
+- Does not give a clear and direct answer.
+
+- Moreover, variables are assumed to be measured without error.
+
+:::
+:::
+:::
+:::
+
+::: aside
+Example adapted from @song2012basic.
+:::
+
+
+
+
+
+
+## Covariance-based approach
+
+::: {.columns}
+
+::: {.column width=45%}
+::: {.nudge-up-small}
+Sample correlation matrix looks like this^[Simulated data, from a two-factor SEM ($n=1000$).]:
+
+```{r}
+#| fig-align: center
+#| out-width: 100%
+#| fig-height: 4.5
+#| fig-width: 4.5
+library(brlavaan)
+dat <- gen_data_twofac(n = 1000)
+z <- cor(dat)
+colnames(z) <- rownames(z) <- c("y[1]","y[2]","y[3]","y[4]","y[5]","y[6]")
+
+library(ggcorrplot)
+ggcorrplot(
+  z[, 6:1],
+  lab = TRUE, lab_col = "black", lab_size = 4,
+  colors = c("#00A6AA", "white", "#F18F00"),
+  type = "full",
+  show.diag = TRUE
+) +
+  scale_x_discrete(position = "top", labels = scales::label_parse()) +
+  scale_y_discrete(labels = scales::label_parse()) +
+  theme(
+    axis.text.x = element_text(angle = 0, hjust = 0.5),
+    axis.ticks = element_blank(),
+    legend.position = "none"
+  )
+```
+:::
+:::
+
+::: {.column width=55%}
+::: {.nudge-down-medium}
+- The data suggests clustering of variables
+   - [$y_1$,$y_2$,$y_3$]{.text-blu} measure *glycemic control* ([$\texttt{GlyCon}$]{.text-blu})
+   - [$y_4$,$y_5$,$y_6$]{.text-mer} measure *kidney health* ([$\texttt{KdnHlt}$]{.text-mer})
+
+- There is an element of dimension-reduction; much needed for analysing (correlated) multivariate data.
+
+::: {.fragment}
+- Easier to hypothesize relationships, e.g.
+  $$
+  {\color{kaustmer}\texttt{KdnHlt}} = \alpha + \beta \,  {\color{kaustblu}\texttt{GlyCon}} + \texttt{error}
+  $$
+
+- SEM is about modelling the <u>covariance structure</u> of the data,
+$$
+\boldsymbol\Sigma = \boldsymbol\Sigma(\vartheta).
+$$
+:::
+:::
+:::
+
+:::
+
+## SEM equations
+
+::: {.columns}
+
+::: {.column width=50%}
+::: {.nudge-up}
+$$
+\small
+\begin{gathered}
+\begin{pmatrix}
+y_1 \\
+y_2 \\
+y_3 \\
+y_4 \\
+y_5 \\
+y_6
+\end{pmatrix}
+=
+\begin{pmatrix}
+\textcolor{kaustpur}{\lambda_{11}} & 0 \\
+\textcolor{kaustpur}{\lambda_{21}} & 0 \\
+\textcolor{kaustpur}{\lambda_{31}} & 0 \\
+0 & \textcolor{kaustpur}{\lambda_{42}} \\
+0 & \textcolor{kaustpur}{\lambda_{52}} \\
+0 & \textcolor{kaustpur}{\lambda_{62}} \\
+\end{pmatrix}
+\begin{pmatrix}
+\eta_1 \\
+\eta_2
+\end{pmatrix}
++
+\begin{pmatrix}
+\epsilon_1 \\
+\epsilon_2 \\
+\epsilon_3 \\
+\epsilon_4 \\
+\epsilon_5 \\
+\epsilon_6
+\end{pmatrix} \\[1em]
+\begin{pmatrix}
+\eta_1 \\
+\eta_2
+\end{pmatrix}
+=
+\begin{pmatrix}
+0 & 0 \\
+{\color{kaustgrn}\beta} & 0 \\
+\end{pmatrix}
+\begin{pmatrix}
+\eta_1 \\
+\eta_2
+\end{pmatrix}
++
+\begin{pmatrix}
+\zeta_1 \\
+\zeta_2
+\end{pmatrix}
+\end{gathered}
+$$
+
+::: {.fragment}
+
+::: {.nudge-up-small}
+Or, more compactly as
+
+::: {.nudge-up}
+$$
+\begin{gathered}
+\mathbf y = {\color{Gray}\boldsymbol\nu +\,}  {\color{kaustpur}\boldsymbol\Lambda} \boldsymbol\eta + \boldsymbol\epsilon \\
+\boldsymbol\eta = {\color{Gray}\boldsymbol\alpha +\,} {\color{kaustgrn}\mathbf B} \boldsymbol\eta + \boldsymbol\zeta
+\end{gathered}
+$$
+
+with assumptions $\boldsymbol\epsilon\sim\operatorname{N}_p(\mathbf 0, {\color{kaustorg}\boldsymbol\Theta})$, $\boldsymbol\zeta\sim\operatorname{N}_q(\mathbf 0, {\color{kausttur}\boldsymbol\Psi})$, and $\operatorname{cov}(\boldsymbol\epsilon, \boldsymbol\zeta)=\mathbf 0$.
+
+:::
+:::
+:::
+
+:::
+:::
+
+::: {.column width=50%}
+```{r, engine = "tikz"}
+#| fig-align: center
+#| out-width: 100%
+\definecolor{kaustorg}{RGB}{241, 143, 0}
+\definecolor{kausttur}{RGB}{0, 166, 170}
+\definecolor{kaustmer}{RGB}{177, 15, 46}
+\definecolor{kaustgrn}{RGB}{173, 191, 4}
+\definecolor{kaustblu}{RGB}{82, 132, 196}
+\definecolor{kaustpur}{RGB}{156, 111, 174}
+\begin{tikzpicture}[%
+  scale=0.88,
+  >=stealth,
+  auto,
+  node distance=1.6cm,
+  every node/.style={font=\small},
+  latent/.style={font=\normalsize,circle, draw, minimum size=9mm, inner sep=0mm},
+  obs/.style={font=\normalsize,rectangle, draw, minimum size=6mm, inner sep=0mm},
+  error/.style={font=\normalsize,circle, draw, minimum size=5mm, inner sep=0mm}
+]
+
+% --------------------------------------------------------
+% 1) LATENT VARIABLES
+% --------------------------------------------------------
+\node[latent] (eta1) at (-1.5, -2) {$\eta_{1}$};
+\node[latent] (eta2) at ( 3.5, -2) {$\eta_{2}$};
+
+% --------------------------------------------------------
+% 2) OBSERVED VARIABLES + ERROR TERMS
+%    Place y1..y3 (for eta1) on the left, y4..y6 (for eta2) on the right.
+% --------------------------------------------------------
+\node[obs] (y1) at (-2.8, 0) {$y_{1}$};
+\node[obs] (y2) at (-1.5, 0) {$y_{2}$};
+\node[obs] (y3) at ( -0.2, 0) {$y_{3}$};
+
+\node[obs] (y4) at ( 2.2, 0) {$y_{4}$};
+\node[obs] (y5) at ( 3.5, 0) {$y_{5}$};
+\node[obs] (y6) at ( 4.8, 0) {$y_{6}$};
+
+% Error terms above each observed variable
+\node[error] (e1) at (-2.8, 1) {$\epsilon_{1}$};
+\node[error] (e2) at (-1.5, 1) {$\epsilon_{2}$};
+\node[error] (e3) at ( -0.2, 1) {$\epsilon_{3}$};
+\node[error] (e4) at ( 2.2, 1) {$\epsilon_{4}$};
+\node[error] (e5) at ( 3.5, 1) {$\epsilon_{5}$};
+\node[error] (e6) at ( 4.8, 1) {$\epsilon_{6}$};
+
+% --------------------------------------------------------
+% 3) PATHS FROM ERROR TERMS TO OBSERVED VARIABLES
+% --------------------------------------------------------
+\draw[->] (e1) -- (y1);
+\draw[->] (e2) -- (y2);
+\draw[->] (e3) -- (y3);
+\draw[->] (e4) -- (y4);
+\draw[->] (e5) -- (y5);
+\draw[->] (e6) -- (y6);
+
+% --------------------------------------------------------
+% 4) FACTOR LOADINGS
+%    \eta_{i1} -> y1, y2, y3
+%    \eta_{i2} -> y4, y5, y6
+% --------------------------------------------------------
+\draw[->] (eta1) -- node[pos=0.5, right] {$1$} (y1);
+\draw[->] (eta1) -- node[pos=0.5, right] {\color{kaustpur}$\lambda_{21}$} (y2);
+\draw[->] (eta1) -- node[pos=0.5, right] {\color{kaustpur}$\lambda_{31}$} (y3);
+
+\draw[->] (eta2) -- node[pos=0.5, right] {$1$} (y4);
+\draw[->] (eta2) -- node[pos=0.5, right] {\color{kaustpur}$\lambda_{52}$} (y5);
+\draw[->] (eta2) -- node[pos=0.5, right] {\color{kaustpur}$\lambda_{62}$} (y6);
+
+% --------------------------------------------------------
+% 5) REGRESSION BETWEEN LATENT VARIABLES
+%    \eta_1 -> \eta_2, labeled beta
+% --------------------------------------------------------
+\draw[->] (eta1) -- node[midway, above] {\color{kaustgrn}$\beta$} (eta2);
+
+% --------------------------------------------------------
+% 6) VARIANCES OF LATENT VARIABLES
+%    Double-headed arrows for psi_{11} and psi_{22}
+% --------------------------------------------------------
+\draw[<->] (eta1) to[out=200, in=230, looseness=4]
+  node[left] {\color{kausttur}$\psi_{11}$} (eta1);
+
+\draw[<->] (eta2) to[out=-50, in=-20, looseness=4]
+  node[right] {\color{kausttur}$\psi_{22}$} (eta2);
+
+\foreach \i in {1,...,6}{
+  \draw[<->] (e\i)
+    to[out=110, in=140, looseness=5]
+    node[above] {\color{kaustorg}$\theta_{\i\i}$}
+    (e\i);
+}
+
+\end{tikzpicture}
+```
+
+::: {.fragment}
+
+- SEM parameters include the free entries of $\color{Gray}\boldsymbol\nu$, $\color{kaustpur}\boldsymbol\Lambda$, $\color{kaustorg}\boldsymbol\Theta$, $\color{Gray}\boldsymbol\alpha$, $\color{kaustgrn}\mathbf B$, and $\color{kausttur}\boldsymbol\Psi$.
+
+- Dump all in $\vartheta \in\mathbb R^m$, where $m < p(p+1)/2 {\color{Gray} \,+\, p}$.
+
+- Sometimes, not interested in mean structure, so $\color{Gray}\boldsymbol\nu$ and $\color{Gray}\boldsymbol\alpha$ are dropped.
+
+:::
+
+:::
+
+:::
+
+## ML estimation
+
+
+
+- It can be shown that the normal SEM reduces to $\mathbf y\sim \text{N}_p\big(\boldsymbol\mu(\vartheta), \boldsymbol\Sigma(\vartheta)\big)$, where
+$$
+\begin{align}
+\boldsymbol\mu(\vartheta) &= \boldsymbol\nu + \boldsymbol\Lambda (\mathbf I - \mathbf B)^{-1} \boldsymbol\alpha  \\
+\boldsymbol\Sigma(\vartheta) &=
+\underbrace{\boldsymbol\Lambda (\mathbf I - \mathbf B)^{-1} \boldsymbol\Psi (\mathbf I - \mathbf B)^{-\top} \boldsymbol\Lambda^\top}_{\boldsymbol\Sigma^*(\vartheta)} + \boldsymbol\Theta
+\end{align}
+$${#eq-margsem}
+
+::: {.fragment}
+- Suppose we observe $\mathcal Y= \{\mathbf y_1,\dots,\mathbf y_n\}$. ML estimation maximises (up to a constant) the log-likelihood
+  $$
+  \ell(\vartheta)
+  = -\frac{n}{2}\Bigl[
+  \log \bigl|\boldsymbol\Sigma(\vartheta)\bigr|
+  + \operatorname{tr} \bigl(\boldsymbol\Sigma(\vartheta)^{-1} \mathbf S\bigr)
+  {\color{Gray}+ \bigl(\bar {\mathbf y} - \boldsymbol\mu(\vartheta)\bigr)^{\top}
+    \boldsymbol\Sigma(\vartheta)^{-1}
+    \bigl(\bar {\mathbf y} - \boldsymbol\mu(\vartheta)\bigr)}
+  \Bigr]
+  $${#eq-margloglik}
+  where
+    - $\mathbf S = \frac{1}{n}\sum_{i=1}^n (\mathbf y_i - \bar{\mathbf y})(\mathbf y_i - \bar{\mathbf y})^\top$ is the (biased) sample covariance matrix; and
+    - $\bar{\mathbf y} = \frac{1}{n}\sum_{i=1}^n \mathbf y_i$ is the sample mean.
+
+::: {.nudge-down-small}
+- Clearly, the MLE aims to minimise the discrepancy between $\mathbf S$ and $\boldsymbol\Sigma(\vartheta)$.
+:::
+:::
+
+## Taxonomy of latent variable models
+
+1. Factor analysis
+   - Measurement model only
+   - No structural relations among latent variables
+   - Continuous or ordinal outcomes
+
+2. Structural equation models
+   - Measurement + structural model
+   - Relations among latent variables
+
+3. Item Response Theory (IRT) models
+   - Think CFA with binary indicators + logistic link
+   - *Slightly* different parameterisation [difficulties & discriminations]
+
+4. Others
+   - Path analysis, mediation analysis, MIMIC models, latent growth curve models, multilevel SEM, multigroup SEM, latent class analysis, etc.
+
+# Confirmatory Factor Analysis (CFA) {.transition-slide}
+
+## CFA is measurement only model
+
+::: {.columns}
+
+::: {.column width=50%}
+```{r pathtwofac, engine = "tikz", out.width = "80%", echo = FALSE, fig.align = "center"}
+\usetikzlibrary{shapes.geometric,fit,backgrounds}
+\begin{tikzpicture}[%
+  >=stealth,
+  auto,
+  node distance=1.6cm,
+  every node/.style={font=\scriptsize},
+  latent/.style={font=\small, circle, draw, minimum size=7mm, inner sep=0mm},
+  obs/.style={rectangle, draw, minimum size=4mm, inner sep=0mm},
+  intercept/.style={font=\tiny, draw, regular polygon, regular polygon sides=3,
+                    minimum size=6mm, inner sep=0mm}
+]
+
+% --------------------------------------------------------
+% 1) LATENT VARIABLES
+% --------------------------------------------------------
+\node[latent] (eta1) at (-1.5,  3.5) {$\eta_{1}$};
+\node[latent] (eta2) at (-1.5,  0.8) {$\eta_{2}$};
+\node[latent] (eta3) at (-1.5, -1.9) {$\eta_{3}$};
+
+% --------------------------------------------------------
+% 2) OBSERVED VARIABLES (stacked on the LEFT: y1 at top to y9 at bottom)
+% --------------------------------------------------------
+\node[obs] (y1) at (-4.5,  4.4) {$y_{1}$};
+\node[obs] (y2) at (-4.5,  3.5) {$y_{2}$};
+\node[obs] (y3) at (-4.5,  2.6) {$y_{3}$};
+
+\node[obs] (y4) at (-4.5,  1.7) {$y_{4}$};
+\node[obs] (y5) at (-4.5,  0.8) {$y_{5}$};
+\node[obs] (y6) at (-4.5, -0.1) {$y_{6}$};
+
+\node[obs] (y7) at (-4.5, -1.0) {$y_{7}$};
+\node[obs] (y8) at (-4.5, -1.9) {$y_{8}$};
+\node[obs] (y9) at (-4.5, -2.8) {$y_{9}$};
+
+% --------------------------------------------------------
+% 3) INTERCEPTS (triangles) -> OBSERVED VARIABLES
+%     Triangles labeled "1" with paths labeled nu_i
+%     Place intercepts to the LEFT of each observed and point rightwards
+% --------------------------------------------------------
+\node[intercept] (nu1) at (-6.0,  4.4) {{\tiny $1$}};
+\node[intercept] (nu2) at (-6.0,  3.5) {{\tiny $1$}};
+\node[intercept] (nu3) at (-6.0,  2.6) {{\tiny $1$}};
+
+\node[intercept] (nu4) at (-6.0,  1.7) {{\tiny $1$}};
+\node[intercept] (nu5) at (-6.0,  0.8) {{\tiny $1$}};
+\node[intercept] (nu6) at (-6.0, -0.1) {{\tiny $1$}};
+
+\node[intercept] (nu7) at (-6.0, -1.0) {{\tiny $1$}};
+\node[intercept] (nu8) at (-6.0, -1.9) {{\tiny $1$}};
+\node[intercept] (nu9) at (-6.0, -2.8) {{\tiny $1$}};
+
+\draw[->] (nu1) -- node[pos=0.5, above] {$\nu_{1}$} (y1);
+\draw[->] (nu2) -- node[pos=0.5, above] {$\nu_{2}$} (y2);
+\draw[->] (nu3) -- node[pos=0.5, above] {$\nu_{3}$} (y3);
+
+\draw[->] (nu4) -- node[pos=0.5, above] {$\nu_{4}$} (y4);
+\draw[->] (nu5) -- node[pos=0.5, above] {$\nu_{5}$} (y5);
+\draw[->] (nu6) -- node[pos=0.5, above] {$\nu_{6}$} (y6);
+
+\draw[->] (nu7) -- node[pos=0.5, above] {$\nu_{7}$} (y7);
+\draw[->] (nu8) -- node[pos=0.5, above] {$\nu_{8}$} (y8);
+\draw[->] (nu9) -- node[pos=0.5, above] {$\nu_{9}$} (y9);
+
+% --------------------------------------------------------
+% 4) FACTOR LOADINGS (from latents to their indicators on the LEFT)
+% --------------------------------------------------------
+\draw[->] (eta1.west) -- node[pos=0.5, above] {$\lambda_{11}$} (y1.east);
+\draw[->] (eta1.west) -- node[pos=0.5, above] {$\lambda_{21}$} (y2.east);
+\draw[->] (eta1.west) -- node[pos=0.5, above] {$\lambda_{31}$} (y3.east);
+
+\draw[->] (eta2.west) -- node[pos=0.5, above] {$\lambda_{42}$} (y4.east);
+\draw[->] (eta2.west) -- node[pos=0.5, above] {$\lambda_{52}$} (y5.east);
+\draw[->] (eta2.west) -- node[pos=0.5, above] {$\lambda_{62}$} (y6.east);
+
+\draw[->] (eta3.west) -- node[pos=0.5, above] {$\lambda_{73}$} (y7.east);
+\draw[->] (eta3.west) -- node[pos=0.5, above] {$\lambda_{83}$} (y8.east);
+\draw[->] (eta3.west) -- node[pos=0.5, above] {$\lambda_{93}$} (y9.east);
+
+% --------------------------------------------------------
+% 5) CORRELATIONS BETWEEN LATENT VARIABLES (all three pairs)
+% --------------------------------------------------------
+\draw[<->] (eta1) to[out=-60, in=45, looseness=0.9]
+  node[midway, left] {$\psi_{12}$} (eta2);
+\draw[<->] (eta1) to[out=-45, in=45, looseness=0.8]
+  node[midway, right] {$\psi_{13}$} (eta3);
+\draw[<->] (eta2) to[out=-45, in=60, looseness=0.9]
+  node[midway, left] {$\psi_{23}$} (eta3);
+
+% --------------------------------------------------------
+% 6) VARIANCES AS SELF-LOOPS (double-headed curved arrows)
+% --------------------------------------------------------
+% Latent variances
+\draw[<->] (eta1) to[out=220, in=260, looseness=4]
+  node[below left] {$\psi_{11}$} (eta1);
+\draw[<->] (eta2) to[out=220, in=260, looseness=4]
+  node[below left] {$\psi_{22}$} (eta2);
+\draw[<->] (eta3) to[out=220, in=260, looseness=4]
+  node[below left] {$\psi_{33}$} (eta3);
+
+% Observed residual variances
+\draw[<->] (y1) to[out=150, in=110, looseness=4] node[above] {$\theta_{11}$} (y1);
+\draw[<->] (y2) to[out=150, in=110, looseness=4] node[above] {$\theta_{22}$} (y2);
+\draw[<->] (y3) to[out=150, in=110, looseness=4] node[above] {$\theta_{33}$} (y3);
+
+\draw[<->] (y4) to[out=150, in=110, looseness=4] node[above] {$\theta_{44}$} (y4);
+\draw[<->] (y5) to[out=150, in=110, looseness=4] node[above] {$\theta_{55}$} (y5);
+\draw[<->] (y6) to[out=150, in=110, looseness=4] node[above] {$\theta_{66}$} (y6);
+
+\draw[<->] (y7) to[out=150, in=110, looseness=4] node[above] {$\theta_{77}$} (y7);
+\draw[<->] (y8) to[out=150, in=110, looseness=4] node[above] {$\theta_{88}$} (y8);
+\draw[<->] (y9) to[out=150, in=110, looseness=4] node[above] {$\theta_{99}$} (y9);
+
+%\begin{scope}[on background layer]
+%  % draw a box that tightly wraps the whole diagram
+%  \node[draw, inner sep=4mm,
+%        fit=(current bounding box.south west) (current bounding box.north east)] (frame) {};
+%\end{scope}
+
+% put "s=1,...,n" at the bottom-right of the box
+%\node[anchor=south east, xshift=0mm, yshift=0mm] at (frame.south east) {\scriptsize $s=1,\dots,n$};
+
+\end{tikzpicture}
+```
+:::
+
+::: {.column width=50%}
+$$
+\small
+\begin{gather*}
+\underbrace{\begin{bmatrix}
+y_{s1} \\ y_{s2} \\ y_{s3} \\ y_{s4} \\ y_{s5} \\ y_{s6} \\ y_{s7} \\ y_{s8} \\ y_{s9}
+\end{bmatrix}}_{\mathbf{y}_s}
+=
+\underbrace{\begin{bmatrix}
+\nu_1 \\ \nu_2 \\ \nu_3 \\ \nu_4 \\ \nu_5 \\ \nu_6 \\ \nu_7 \\ \nu_8 \\ \nu_9
+\end{bmatrix}}_{\boldsymbol{\nu}}
++
+\underbrace{\begin{bmatrix}
+\lambda_{11} & 0 & 0 \\
+\lambda_{21} & 0 & 0 \\
+\lambda_{31} & 0 & 0 \\
+0 & \lambda_{42} & 0 \\
+0 & \lambda_{52} & 0 \\
+0 & \lambda_{62} & 0 \\
+0 & 0 & \lambda_{73} \\
+0 & 0 & \lambda_{83} \\
+0 & 0 & \lambda_{93} \\
+\end{bmatrix}}_{\boldsymbol{\Lambda}}
+\underbrace{\begin{bmatrix}
+\eta_{s1} \\ \eta_{s2} \\ \eta_{s3}
+\end{bmatrix}}_{\boldsymbol{\eta_s}}
++
+\underbrace{\begin{bmatrix}
+\epsilon_{s1} \\ \epsilon_{s2} \\ \epsilon_{s3} \\ \epsilon_{s4} \\ \epsilon_{s5} \\ \epsilon_{s6} \\ \epsilon_{s7} \\ \epsilon_{s8} \\ \epsilon_{s9}
+\end{bmatrix}}_{\boldsymbol{\epsilon}_s}\\
+\boldsymbol{\epsilon}_s 
+\overset{\text{iid}}{\sim}
+\mathcal{N}_9 \bigg(
+\mathbf{0},
+\underbrace{\operatorname{diag}(\theta_{11},\dots,\theta_{99})}_{\boldsymbol{\Theta}}
+\bigg)
+\\
+\boldsymbol{\eta_s}
+\overset{\text{iid}}{\sim}
+\mathcal{N}_3 \bigg(
+\mathbf{0},
+\underbrace{\begin{bmatrix}
+\psi_{11} & \psi_{12} & \psi_{13} \\
+\cdot & \psi_{22} & \psi_{23} \\
+\cdot & \cdot & \psi_{33}
+\end{bmatrix}}_{\boldsymbol{\Psi}}
+\bigg)
+\end{gather*}
+$$
+
+:::
+
+:::
+
+::: aside
+[@holzinger1939study]
+:::
+
+
+## Identifiability constraints
+
+- A CFA model requires identifiability constraints. Consider the CFA equation
+$$
+y_i = \lambda_{ij} \eta_j + \epsilon_i, \quad \eta_j \sim \text{N}(0, \psi_{jj}), \quad \epsilon_i \sim \text{N}(0, \theta_{ii}).
+$$
+- The total model-implied variance is
+$$
+\operatorname{var}(y_i) = \lambda_{ij}^2 \psi_{jj} + \theta_{ii}
+$$
+- Consider the transformation $(\lambda_{ij}, \psi_{j}) \mapsto (c\lambda_{ij}, \psi_{ij}/c^2)$, for some $c\in\mathbb R$. Then
+$$
+\operatorname{var}(y_i) = \cancel{\textcolor{gray}{c^2}}\lambda_{ij}^2 \frac{\psi_{jj}}{ \cancel{\textcolor{gray}{c^2}}} + \theta_{ii} 
+$$
+
+- The traditional advice is to either:
+  1. Choose an item $i$ and set its loading to 1 (anchoring/marking); [[how?]]{.bg-yel}
+  2. Fix latent variance to 1 (standardisation).
+  
+## Deep dive 
+
+- Anchoring approach (choose an item, set $\lambda=1$)
+  1. Results depend on which item is chosen as reference (arbitrary!)
+  2. Distorts scale (since $\psi \propto 1/\lambda^2$)
+  3. Low reliability item won't give much information about latent variable
+
+. . .
+
+- Standardisation approach (set $\psi=1$)
+  1. Latent variable loses meaning, as it is now on arbitrary scale.
+  2. Loadings absorb all the scale. Is this right?
+
+. . .
+
+- Since the likelihood is scale invariant, both approaches give the same fit. Point estimates can be transformed between the two methods.
+
+- It seems, choosing one or the other is merely selecting one *coordinate system* among infinitely many equivalent ones. 
+
+## Identifiability strength
+
+### Profile log-likelihood for $(\lambda_i,\psi)$ for CFA model
+
+```{r}
+#| fig-height: 4.4
+#| fig-width: 8
+#| fig-align: center
+#| out-width: 100%
+library(tidyverse)
+load("../R/profll_ridge.RData")
+p_profll_ridge 
+```
+
+
+## A principled approach
+
+- Consider a 1-factor model whose covariance matrix is given by
+$$
+\operatorname{var}({\mathbf y}) = \psi \boldsymbol\Lambda\boldsymbol\Lambda^\top + \boldsymbol\Theta =: \boldsymbol\Sigma_y
+$$
+- Since there is a scale indeterminacy between $\psi$ and $\boldsymbol\Lambda$, 
+   - The direction of $\boldsymbol\Lambda$ is identifiable, but not its magnitude.
+   - The absolute scale of $\psi$ is likewise not identifiable.
+
+. . .
+
+- Normalise $\boldsymbol\Lambda$ to have unit length, i.e. set $\|\boldsymbol\Lambda\|=1$. This transfers all scale information to $\psi$. Let $\tilde{\boldsymbol\Lambda} = \frac{\boldsymbol\Lambda}{\| \boldsymbol\Lambda \|}$.
+  - Normalised loadings lies on the unit sphere $\mathcal S^{p-1}$;
+  - With $\psi$ acting as a radial parameter (controlling strength of the factor).
+  
+. . .
+
+- Very intuitive:
+  - Separates patterns (directions) from strengths (scales). Matches geometric intuition!
+  - Eliminates arbitrary choices, parameterisation is "symmetric".
+  
+## Improved geometry
+
+
+```{r}
+#| fig-height: 4.4
+#| fig-width: 8
+#| fig-align: center
+#| out-width: 100%
+library(tidyverse)
+load("../R/profll_spherical.RData")
+p_profll_spherical 
+```
+
+
+## A Bayesian perspective
+
+- Typical prior on $\boldsymbol\Lambda$, such as $\boldsymbol\Lambda\sim\mathcal N_p(0,\tau^2 \mathbf I)$, i.e.
+$$
+p_{\boldsymbol\Lambda}(\boldsymbol\lambda) \propto \exp\left(-\frac{1}{2\tau^2} \|\boldsymbol\lambda \boldsymbol\lambda^\top \|^2 \right)
+$$
+is *spherically symmetric* on $\mathbb R^p$.
+
+- This induces a uniform prior on the sphere for $\tilde\Lambda$, representing complete prior ignorance about the factor’s orientation. Proof:
+
+  - Define the transformation $\boldsymbol\Lambda = r  \tilde{\boldsymbol\Lambda}$, where $r > 0$ and $\tilde{\boldsymbol\Lambda} \in \mathcal S^{p-1}$.
+  - Jacobian is $\left|\frac{\partial \boldsymbol \Lambda}{\partial (r, \tilde{\boldsymbol\Lambda})}\right| = r^{p-1}$. *(volume scaling when expanding unit sphere to radius $r$)*
+  - PDF transform gives $p(r, \tilde{\boldsymbol\Lambda}) \propto p(r) \, r^{p-1}$. Hence, uniform on the sphere.
+
+. . .
+
+- Any directional belief (e.g., expecting all loadings to be positive or concentrated around a certain variable) can be introduced naturally via a von Mises-Fisher prior on $\tilde{\boldsymbol\Lambda}$.
+
+
+## How I got here
+
+
+
+<!-- ## CFA model -->
+
+<!-- ::: {.columns} -->
+
+<!-- ::: {.column width=50%} -->
+<!-- Special case of SEM with only measurement model ($\boldsymbol\alpha=\mathbf 0,\mathbf B=\mathbf 0$) -->
+<!-- ::: -->
+
+<!-- ::: {.column width=50%} -->
+<!-- ```{r, engine = "tikz"} -->
+<!-- #| fig-align: center -->
+<!-- #| out-width: 100% -->
+<!-- \definecolor{kaustorg}{RGB}{241, 143, 0} -->
+<!-- \definecolor{kausttur}{RGB}{0, 166, 170} -->
+<!-- \definecolor{kaustmer}{RGB}{177, 15, 46} -->
+<!-- \definecolor{kaustgrn}{RGB}{173, 191, 4} -->
+<!-- \definecolor{kaustblu}{RGB}{82, 132, 196} -->
+<!-- \definecolor{kaustpur}{RGB}{156, 111, 174} -->
+<!-- \begin{tikzpicture}[% -->
+<!--   scale=0.88, -->
+<!--   >=stealth, -->
+<!--   auto, -->
+<!--   node distance=1.6cm, -->
+<!--   every node/.style={font=\small}, -->
+<!--   latent/.style={font=\normalsize,circle, draw, minimum size=9mm, inner sep=0mm}, -->
+<!--   obs/.style={font=\normalsize,rectangle, draw, minimum size=6mm, inner sep=0mm}, -->
+<!--   error/.style={font=\normalsize,circle, draw, minimum size=5mm, inner sep=0mm} -->
+<!-- ] -->
+
+<!-- % -------------------------------------------------------- -->
+<!-- % 1) LATENT VARIABLES -->
+<!-- % -------------------------------------------------------- -->
+<!-- \node[latent] (eta1) at (-0.2, -2) {$\eta$}; -->
+
+<!-- % -------------------------------------------------------- -->
+<!-- % 2) OBSERVED VARIABLES + ERROR TERMS -->
+<!-- %    Place y1..y3 (for eta1) on the left, y4..y6 (for eta2) on the right. -->
+<!-- % -------------------------------------------------------- -->
+<!-- \node[obs] (y1) at (-2.8, 0) {$y_{1}$}; -->
+<!-- \node[obs] (y2) at (-1.5, 0) {$y_{2}$}; -->
+<!-- \node[obs] (y3) at ( -0.2, 0) {$y_{3}$}; -->
+<!-- \node[obs] (y4) at ( 1.3, 0) {$y_{4}$}; -->
+<!-- \node[obs] (y5) at ( 2.6, 0) {$y_{5}$}; -->
+
+<!-- % Error terms above each observed variable -->
+<!-- \node[error] (e1) at (-2.8, 1) {$\epsilon_{1}$}; -->
+<!-- \node[error] (e2) at (-1.5, 1) {$\epsilon_{2}$}; -->
+<!-- \node[error] (e3) at ( -0.2, 1) {$\epsilon_{3}$}; -->
+<!-- \node[error] (e4) at ( 1.3, 1) {$\epsilon_{4}$}; -->
+<!-- \node[error] (e5) at ( 2.6, 1) {$\epsilon_{5}$}; -->
+
+<!-- % -------------------------------------------------------- -->
+<!-- % 3) PATHS FROM ERROR TERMS TO OBSERVED VARIABLES -->
+<!-- % -------------------------------------------------------- -->
+<!-- \draw[->] (e2) -- (y2); -->
+<!-- \draw[->] (e3) -- (y3); -->
+<!-- \draw[->] (e4) -- (y4); -->
+<!-- \draw[->] (e5) -- (y5); -->
+
+<!-- \draw[->] (eta1) -- node[pos=0.5, right] {$\lambda_1$} (y1); -->
+<!-- \draw[->] (eta1) -- node[pos=0.5, right] {$\lambda_{2}$} (y2); -->
+<!-- \draw[->] (eta1) -- node[pos=0.5, right] {$\lambda_{3}$} (y3); -->
+<!-- \draw[->] (eta1) -- node[pos=0.5, right] {$\lambda_{4}$} (y4); -->
+<!-- \draw[->] (eta1) -- node[pos=0.5, right] {$\lambda_{5}$} (y5); -->
+
+
+<!-- % -------------------------------------------------------- -->
+<!-- % 6) VARIANCES OF LATENT VARIABLES -->
+<!-- %    Double-headed arrows for psi_{11} and psi_{22} -->
+<!-- % -------------------------------------------------------- -->
+<!-- \draw[<->] (eta1) to[out=290, in=320, looseness=4] -->
+<!--   node[right] {$\psi$} (eta1); -->
+
+<!-- \foreach \i in {1,...,5}{ -->
+<!--   \draw[->] (e\i) -- (y\i); -->
+<!--   \draw[<->] (e\i) -->
+<!--     to[out=110, in=140, looseness=5] -->
+<!--     node[above] {$\theta_{\i}$} -->
+<!--     (e\i); -->
+<!-- } -->
+
+<!-- \end{tikzpicture} -->
+<!-- ``` -->
+<!-- ::: -->
+
+<!-- ::: -->
+
+
+
+<!-- - Special case of SEM with only measurement model -->
+<!--   $$ -->
+<!--   \mathbf y = \boldsymbol\Lambda \boldsymbol\eta + \boldsymbol\epsilon -->
+<!--   $$ -->
+<!--   with $\boldsymbol\eta\sim \text{N}_q(\mathbf 0, \boldsymbol\Psi)$ and $\boldsymbol\epsilon\sim \text{N}_p(\mathbf 0, \boldsymbol\Theta)$. -->
+
+
+# شكراً جزيلاً {.thanks-slide  background-image="_extensions/haziqj/kaust/KAUST-Thank-you.jpg" style="padding-top:0.5em;padding-bottom:0em"}
+
+[`https://haziqj.ml/sembias-gradsem`](https://haziqj.ml/sembias-gradsem)
+
+## References

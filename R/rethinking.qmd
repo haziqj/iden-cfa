@@ -53,6 +53,7 @@ $$
 $$
 remains constant. 
 So all *directional* comparisons (which variables are more strongly related to the latent factor) are invariant to scaling.
+
 This geometric decomposition into *direction* and *scale* has immediate Bayesian appeal.
 A spherically symmetric prior on $\Lambda$, such as $\Lambda\sim\mathcal N(0,\tau^2 I)$, induces a uniform prior on the sphere for $\tilde\Lambda$, representing complete prior ignorance about the factor’s orientation. 
 Any directional belief (e.g., expecting all loadings to be positive or concentrated around a certain variable) can be introduced naturally via a von Mises-Fisher prior on $\tilde{\Lambda}$, via

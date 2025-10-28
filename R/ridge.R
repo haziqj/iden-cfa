@@ -58,23 +58,31 @@ plot_df <-
   ) 
 
 # Plot of the profile log-likelihood surface
-ggplot(plot_df, aes(lambda, logpsi)) +
-  geom_raster(aes(fill = ll)) +
+p_profll_ridge <-
+  ggplot(plot_df, aes(lambda, logpsi)) +
+  geom_raster(aes(fill = ll), alpha = 0.9) +
   geom_contour(aes(z = ll), col = "white") +
-  geom_hline(yintercept = 0, linetype = "dashed", color = "red3") +
-  geom_vline(xintercept = 1, linetype = "dashed", color = "red3") +
-  scale_fill_viridis_c() +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "black") +
+  geom_vline(xintercept = 1, linetype = "dashed", color = "black") +
+  scale_fill_viridis_c(
+    option = "turbo",
+    labels = scales::label_comma()
+  ) +
   # scale_y_continuous(expand = c(0, 0)) +
   # scale_x_continuous(expand = c(0, 0)) +
   labs(
-    title = expression("Profile log-likelihood surface over ("*lambda[i]*", "*psi*")"),
+    # title = expression("Profile log-likelihood surface over ("*lambda[i]*", "*psi*")"),
     x = expression(lambda[i]),
     y = expression(log(psi)),
     fill = "Log-likelihood"
   ) +
   theme_minimal() +
-  theme(legend.position = "none") +
-  facet_grid(. ~ i)
+  theme(
+    legend.position = "bottom",
+    legend.key.width = unit(2, "cm"),
+    legend.key.height = unit(0.2, "cm")
+  ) +
+  facet_grid(. ~ i); p_profll_ridge
 
 # Slices of the profile likelihood at fixed psi and lambda
 lambda0 <- 
@@ -105,8 +113,4 @@ bind_rows(
   ) +
   theme_minimal()
 
-
-
-
-
-
+save(p_profll_ridge, file = "profll_ridge.RData")
