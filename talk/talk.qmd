@@ -20,7 +20,7 @@ author:
     orcid: 0000-0003-3298-1010
     affiliations: 
       - 'Research Specialist, BAYESCOMP @ CEMSE-KAUST'
-      - '<span style="font-style:normal;">[`https://haziqj.ml/sembias-gradsem/`](https://haziqj.ml/sembias-gradsem/)</span>'
+      # - '<span style="font-style:normal;">[`https://haziqj.ml/sembias-gradsem/`](https://haziqj.ml/sembias-gradsem/)</span>'
 date: 2025-10-28
 bibliography: ../refs.bib
 execute:
@@ -645,10 +645,15 @@ $$
 $$
 \operatorname{var}(y_i) = \lambda_{ij}^2 \psi_{jj} + \theta_{ii}
 $$
+
+. . .
+
 - Consider the transformation $(\lambda_{ij}, \psi_{j}) \mapsto (c\lambda_{ij}, \psi_{ij}/c^2)$, for some $c\in\mathbb R$. Then
 $$
 \operatorname{var}(y_i) = \cancel{\textcolor{gray}{c^2}}\lambda_{ij}^2 \frac{\psi_{jj}}{ \cancel{\textcolor{gray}{c^2}}} + \theta_{ii} 
 $$
+
+. . .
 
 - The traditional advice is to either:
   1. Choose an item $i$ and set its loading to 1 (anchoring/marking); [[how?]]{.bg-yel}
@@ -683,7 +688,7 @@ $$
 #| fig-align: center
 #| out-width: 100%
 library(tidyverse)
-load("../R/profll_ridge.RData")
+load("profll_ridge.RData")
 p_profll_ridge 
 ```
 
@@ -714,23 +719,25 @@ $$
 
 
 ```{r}
-#| fig-height: 4.4
+#| fig-height: 4.5
 #| fig-width: 8
 #| fig-align: center
 #| out-width: 100%
 library(tidyverse)
-load("../R/profll_spherical.RData")
+load("profll_spherical.RData")
 p_profll_spherical 
 ```
 
 
-## A Bayesian perspective
+## A Bayesian appeal
 
 - Typical prior on $\boldsymbol\Lambda$, such as $\boldsymbol\Lambda\sim\mathcal N_p(0,\tau^2 \mathbf I)$, i.e.
 $$
 p_{\boldsymbol\Lambda}(\boldsymbol\lambda) \propto \exp\left(-\frac{1}{2\tau^2} \|\boldsymbol\lambda \boldsymbol\lambda^\top \|^2 \right)
 $$
 is *spherically symmetric* on $\mathbb R^p$.
+
+. . .
 
 - This induces a uniform prior on the sphere for $\tilde\Lambda$, representing complete prior ignorance about the factor’s orientation. Proof:
 
@@ -745,6 +752,49 @@ is *spherically symmetric* on $\mathbb R^p$.
 
 ## How I got here
 
+### INLAvaan with `std.lv = FALSE` (anchoring)
+
+
+```{r}
+#| fig-height: 5.4
+#| fig-width: 10
+#| fig-align: center
+#| out-width: 100%
+load("pbad_cfa.RData")
+p_bad
+```
+
+## How I got here
+
+### INLAvaan with `std.lv = TRUE` (fixing latent variance)
+
+
+```{r}
+#| fig-height: 5.4
+#| fig-width: 10
+#| fig-align: center
+#| out-width: 100%
+load("pgood_cfa.RData")
+p_good
+```
+
+## Takeaways
+
+### You cannot fix bad geometry!!!
+
+::: {.nudge-down}
+
+- Anchoring or fixing variance imposes arbitrary coordinate cuts through the likelihood surface. This causes strong curvature (ill-conditioning) around the mode.
+
+- Ill-conditioned Hessians arise from poor parameterisation, not from lack of information in the data. It's a "coordinate-system artefact".
+
+- A geometrically natural parameterisation respects the model's invariances **by construction**. 
+
+- Implications for frequentist estimation (standard errors), Bayesian MCMC, and us (approximate Bayes).
+
+- Next up: 1) Theory for >1 factor models; 2) Implementation in code.
+
+:::
 
 
 <!-- ## CFA model -->

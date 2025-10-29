@@ -1,0 +1,1671 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="talk_files/libs/clipboard/clipboard.min.js"></script>
+<script src="talk_files/libs/quarto-html/tabby.min.js"></script>
+<script src="talk_files/libs/quarto-html/popper.min.js"></script>
+<script src="talk_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="talk_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="talk_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="talk_files/libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.7.33">
+
+  <meta name="author" content="Haziq Jamil">
+  <meta name="dcterms.date" content="2025-10-28">
+  <title>SEM Stuff I’m working on right now</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="talk_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="talk_files/libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for citations */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+      margin-bottom: 0em;
+    }
+    .hanging-indent div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }  </style>
+  <link rel="stylesheet" href="talk_files/libs/revealjs/dist/theme/quarto-443da90d614da2b64081eaee399990a7.css">
+  <link href="talk_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="talk_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="talk_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="talk_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="talk_files/libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="talk_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" data-background-image="_extensions/haziqj/kaust/KAUST-beacon-with-logo.png" data-background-position="center" data-background-size="cover" class="quarto-title-block center">
+  <h1 class="title">SEM Stuff I’m working on right now</h1>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Haziq Jamil <a href="https://orcid.org/0000-0003-3298-1010" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a>
+</div>
+        <p class="quarto-title-affiliation">
+            Research Specialist, BAYESCOMP @ CEMSE-KAUST
+          </p>
+    </div>
+</div>
+
+  <p class="date">October 28, 2025</p>
+</section>
+<section id="motivating-example" class="slide level2">
+<h2>Motivating example</h2>
+<h3 id="glycemic-control-and-kidney-health">Glycemic control and kidney health</h3>
+<blockquote>
+<p>Does poorer glycemic control lead to greater severity of kidney disease?</p>
+</blockquote>
+<div class="columns">
+<div class="column" style="width:48%;">
+<p>Observe <span class="math inline">\(p=6\)</span> variables for each patient:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="rwhslatclq" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>@import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+#rwhslatclq table {
+  font-family: Raleway, system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#rwhslatclq thead, #rwhslatclq tbody, #rwhslatclq tfoot, #rwhslatclq tr, #rwhslatclq td, #rwhslatclq th {
+  border-style: none;
+}
+
+#rwhslatclq p {
+  margin: 0;
+  padding: 0;
+}
+
+#rwhslatclq .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 25px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: 100%;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#rwhslatclq .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#rwhslatclq .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#rwhslatclq .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#rwhslatclq .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#rwhslatclq .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#rwhslatclq .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#rwhslatclq .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#rwhslatclq .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#rwhslatclq .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#rwhslatclq .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#rwhslatclq .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#rwhslatclq .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#rwhslatclq .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#rwhslatclq .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#rwhslatclq .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#rwhslatclq .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#rwhslatclq .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#rwhslatclq .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#rwhslatclq .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#rwhslatclq .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#rwhslatclq .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#rwhslatclq .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#rwhslatclq .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#rwhslatclq .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#rwhslatclq .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#rwhslatclq .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#rwhslatclq .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#rwhslatclq .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#rwhslatclq .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#rwhslatclq .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#rwhslatclq .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#rwhslatclq .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#rwhslatclq .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#rwhslatclq .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#rwhslatclq .gt_left {
+  text-align: left;
+}
+
+#rwhslatclq .gt_center {
+  text-align: center;
+}
+
+#rwhslatclq .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#rwhslatclq .gt_font_normal {
+  font-weight: normal;
+}
+
+#rwhslatclq .gt_font_bold {
+  font-weight: bold;
+}
+
+#rwhslatclq .gt_font_italic {
+  font-style: italic;
+}
+
+#rwhslatclq .gt_super {
+  font-size: 65%;
+}
+
+#rwhslatclq .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#rwhslatclq .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#rwhslatclq .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#rwhslatclq .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#rwhslatclq .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#rwhslatclq .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#rwhslatclq .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#rwhslatclq .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#rwhslatclq div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="font-weight: bold;" scope="col" id="Variable"></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="font-weight: bold;" scope="col" id="Indicator">Indicator</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="font-weight: bold;" scope="col" id="Description">Description</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="font-weight: bold;" scope="col" id="Unit">Unit</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="Variable" class="gt_row gt_left"><span data-qmd-base64="PHNwYW4gY2xhc3M9Im1hdGggaW5saW5lIiBzdHlsZT0iY29sb3I6IzUyODRDNCI+XFwoeV8xXFwpPC9zcGFuPg=="><span class="gt_from_md"><span class="math inline" style="color:#5284C4">\(y_1\)</span></span></span></td>
+<td headers="Indicator" class="gt_row gt_left">HbA1c</td>
+<td headers="Description" class="gt_row gt_left">3-month avg. blood glucose</td>
+<td headers="Unit" class="gt_row gt_left">%</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left"><span data-qmd-base64="PHNwYW4gY2xhc3M9Im1hdGggaW5saW5lIiBzdHlsZT0iY29sb3I6IzUyODRDNCI+XFwoeV8yXFwpPC9zcGFuPg=="><span class="gt_from_md"><span class="math inline" style="color:#5284C4">\(y_2\)</span></span></span></td>
+<td headers="Indicator" class="gt_row gt_left">FPG</td>
+<td headers="Description" class="gt_row gt_left">Fasting plasma glucose</td>
+<td headers="Unit" class="gt_row gt_left">mmol/L</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left"><span data-qmd-base64="PHNwYW4gY2xhc3M9Im1hdGggaW5saW5lIiBzdHlsZT0iY29sb3I6IzUyODRDNCI+XFwoeV8zXFwpPC9zcGFuPg=="><span class="gt_from_md"><span class="math inline" style="color:#5284C4">\(y_3\)</span></span></span></td>
+<td headers="Indicator" class="gt_row gt_left">Insulin</td>
+<td headers="Description" class="gt_row gt_left">Fasting insulin level</td>
+<td headers="Unit" class="gt_row gt_left">µU/mL</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left"><span data-qmd-base64="PHNwYW4gY2xhc3M9Im1hdGggaW5saW5lIiBzdHlsZT0iY29sb3I6I2IxMGYyZSI+XFwoeV80XFwpPC9zcGFuPg=="><span class="gt_from_md"><span class="math inline" style="color:#b10f2e">\(y_4\)</span></span></span></td>
+<td headers="Indicator" class="gt_row gt_left">PCr</td>
+<td headers="Description" class="gt_row gt_left">Plasma creatinine</td>
+<td headers="Unit" class="gt_row gt_left">µmol/L</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left"><span data-qmd-base64="PHNwYW4gY2xhc3M9Im1hdGggaW5saW5lIiBzdHlsZT0iY29sb3I6I2IxMGYyZSI+XFwoeV81XFwpPC9zcGFuPg=="><span class="gt_from_md"><span class="math inline" style="color:#b10f2e">\(y_5\)</span></span></span></td>
+<td headers="Indicator" class="gt_row gt_left">ACR</td>
+<td headers="Description" class="gt_row gt_left">Albumin–creatinine ratio</td>
+<td headers="Unit" class="gt_row gt_left">mg/g</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left"><span data-qmd-base64="PHNwYW4gY2xhc3M9Im1hdGggaW5saW5lIiBzdHlsZT0iY29sb3I6I2IxMGYyZSI+XFwoeV82XFwpPC9zcGFuPg=="><span class="gt_from_md"><span class="math inline" style="color:#b10f2e">\(y_6\)</span></span></span></td>
+<td headers="Indicator" class="gt_row gt_left">BUN</td>
+<td headers="Description" class="gt_row gt_left">Blood urea nitrogen</td>
+<td headers="Unit" class="gt_row gt_left">mmol/L</td></tr>
+  </tbody>
+  
+</table>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:2%;">
+
+</div><div class="column" style="width:50%;">
+<div class="fragment">
+<div class="nudge-down">
+<p>“<em>casewise</em>” thinking leads to <span class="math display">\[
+\definecolor{kaustorg}{RGB}{241, 143, 0}
+\definecolor{kausttur}{RGB}{0, 166, 170}
+\definecolor{kaustmer}{RGB}{177, 15, 46}
+\definecolor{kaustgrn}{RGB}{173, 191, 4}
+\definecolor{kaustblu}{RGB}{82, 132, 196}
+\definecolor{kaustpur}{RGB}{156, 111, 174}
+\small
+\begin{align*}
+\textcolor{kaustmer}{y_{4}} &amp;= \beta_0^{(4)} + \beta_1^{(4)} \textcolor{kaustblu}{y_{1}} + \beta_2^{(4)} \textcolor{kaustblu}{y_{2}} + \beta_3^{(4)} \textcolor{kaustblu}{y_{3}} + \epsilon^{(4)} \\
+\textcolor{kaustmer}{y_{5}} &amp;= \beta_0^{(5)} + \beta_1^{(5)} \textcolor{kaustblu}{y_{1}} + \beta_2^{(5)} \textcolor{kaustblu}{y_{2}} + \beta_3^{(5)} \textcolor{kaustblu}{y_{3}} + \epsilon^{(5)} \\
+\textcolor{kaustmer}{y_{6}} &amp;= \beta_0^{(6)} + \beta_1^{(6)} \textcolor{kaustblu}{y_{1}} + \beta_2^{(6)} \textcolor{kaustblu}{y_{2}} + \beta_3^{(6)} \textcolor{kaustblu}{y_{3}} + \epsilon^{(6)} \\
+\end{align*}
+\]</span></p>
+<ul>
+<li><p>Does not give a clear and direct answer.</p></li>
+<li><p>Moreover, variables are assumed to be measured without error.</p></li>
+</ul>
+</div>
+</div>
+</div></div>
+
+<aside><div>
+<p>Example adapted from <span class="citation" data-cites="song2012basic">Song and Lee (<a href="#/references" role="doc-biblioref" onclick="">2012</a>)</span>.</p>
+</div></aside></section>
+<section id="covariance-based-approach" class="slide level2">
+<h2>Covariance-based approach</h2>
+<div class="columns">
+<div class="column" style="width:45%;">
+<div class="nudge-up-small">
+<p>Sample correlation matrix looks like this<sup>1</sup>:</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="talk_files/figure-revealjs/unnamed-chunk-2-1.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:55%;">
+<div class="nudge-down-medium">
+<ul>
+<li>The data suggests clustering of variables
+<ul>
+<li><span class="text-blu"><span class="math inline">\(y_1\)</span>,<span class="math inline">\(y_2\)</span>,<span class="math inline">\(y_3\)</span></span> measure <em>glycemic control</em> (<span class="text-blu"><span class="math inline">\(\texttt{GlyCon}\)</span></span>)</li>
+<li><span class="text-mer"><span class="math inline">\(y_4\)</span>,<span class="math inline">\(y_5\)</span>,<span class="math inline">\(y_6\)</span></span> measure <em>kidney health</em> (<span class="text-mer"><span class="math inline">\(\texttt{KdnHlt}\)</span></span>)</li>
+</ul></li>
+<li>There is an element of dimension-reduction; much needed for analysing (correlated) multivariate data.</li>
+</ul>
+<div class="fragment">
+<ul>
+<li><p>Easier to hypothesize relationships, e.g. <span class="math display">\[
+{\color{kaustmer}\texttt{KdnHlt}} = \alpha + \beta \,  {\color{kaustblu}\texttt{GlyCon}} + \texttt{error}
+\]</span></p></li>
+<li><p>SEM is about modelling the <u>covariance structure</u> of the data, <span class="math display">\[
+\boldsymbol\Sigma = \boldsymbol\Sigma(\vartheta).
+\]</span></p></li>
+</ul>
+</div>
+</div>
+</div></div>
+<aside><ol class="aside-footnotes"><li id="fn1"><p>Simulated data, from a two-factor SEM (<span class="math inline">\(n=1000\)</span>).</p></li></ol></aside></section>
+<section id="sem-equations" class="slide level2">
+<h2>SEM equations</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="nudge-up">
+<p><span class="math display">\[
+\small
+\begin{gathered}
+\begin{pmatrix}
+y_1 \\
+y_2 \\
+y_3 \\
+y_4 \\
+y_5 \\
+y_6
+\end{pmatrix}
+=
+\begin{pmatrix}
+\textcolor{kaustpur}{\lambda_{11}} &amp; 0 \\
+\textcolor{kaustpur}{\lambda_{21}} &amp; 0 \\
+\textcolor{kaustpur}{\lambda_{31}} &amp; 0 \\
+0 &amp; \textcolor{kaustpur}{\lambda_{42}} \\
+0 &amp; \textcolor{kaustpur}{\lambda_{52}} \\
+0 &amp; \textcolor{kaustpur}{\lambda_{62}} \\
+\end{pmatrix}
+\begin{pmatrix}
+\eta_1 \\
+\eta_2
+\end{pmatrix}
++
+\begin{pmatrix}
+\epsilon_1 \\
+\epsilon_2 \\
+\epsilon_3 \\
+\epsilon_4 \\
+\epsilon_5 \\
+\epsilon_6
+\end{pmatrix} \\[1em]
+\begin{pmatrix}
+\eta_1 \\
+\eta_2
+\end{pmatrix}
+=
+\begin{pmatrix}
+0 &amp; 0 \\
+{\color{kaustgrn}\beta} &amp; 0 \\
+\end{pmatrix}
+\begin{pmatrix}
+\eta_1 \\
+\eta_2
+\end{pmatrix}
++
+\begin{pmatrix}
+\zeta_1 \\
+\zeta_2
+\end{pmatrix}
+\end{gathered}
+\]</span></p>
+<div class="fragment">
+<div class="nudge-up-small">
+<p>Or, more compactly as</p>
+<div class="nudge-up">
+<p><span class="math display">\[
+\begin{gathered}
+\mathbf y = {\color{Gray}\boldsymbol\nu +\,}  {\color{kaustpur}\boldsymbol\Lambda} \boldsymbol\eta + \boldsymbol\epsilon \\
+\boldsymbol\eta = {\color{Gray}\boldsymbol\alpha +\,} {\color{kaustgrn}\mathbf B} \boldsymbol\eta + \boldsymbol\zeta
+\end{gathered}
+\]</span></p>
+<p>with assumptions <span class="math inline">\(\boldsymbol\epsilon\sim\operatorname{N}_p(\mathbf 0, {\color{kaustorg}\boldsymbol\Theta})\)</span>, <span class="math inline">\(\boldsymbol\zeta\sim\operatorname{N}_q(\mathbf 0, {\color{kausttur}\boldsymbol\Psi})\)</span>, and <span class="math inline">\(\operatorname{cov}(\boldsymbol\epsilon, \boldsymbol\zeta)=\mathbf 0\)</span>.</p>
+</div>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="talk_files/figure-revealjs/unnamed-chunk-3-1.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="fragment">
+<ul>
+<li><p>SEM parameters include the free entries of <span class="math inline">\(\color{Gray}\boldsymbol\nu\)</span>, <span class="math inline">\(\color{kaustpur}\boldsymbol\Lambda\)</span>, <span class="math inline">\(\color{kaustorg}\boldsymbol\Theta\)</span>, <span class="math inline">\(\color{Gray}\boldsymbol\alpha\)</span>, <span class="math inline">\(\color{kaustgrn}\mathbf B\)</span>, and <span class="math inline">\(\color{kausttur}\boldsymbol\Psi\)</span>.</p></li>
+<li><p>Dump all in <span class="math inline">\(\vartheta \in\mathbb R^m\)</span>, where <span class="math inline">\(m &lt; p(p+1)/2 {\color{Gray} \,+\, p}\)</span>.</p></li>
+<li><p>Sometimes, not interested in mean structure, so <span class="math inline">\(\color{Gray}\boldsymbol\nu\)</span> and <span class="math inline">\(\color{Gray}\boldsymbol\alpha\)</span> are dropped.</p></li>
+</ul>
+</div>
+</div></div>
+</section>
+<section id="ml-estimation" class="slide level2">
+<h2>ML estimation</h2>
+<ul>
+<li>It can be shown that the normal SEM reduces to <span class="math inline">\(\mathbf y\sim \text{N}_p\big(\boldsymbol\mu(\vartheta), \boldsymbol\Sigma(\vartheta)\big)\)</span>, where <span id="eq-margsem"><span class="math display">\[
+\begin{align}
+\boldsymbol\mu(\vartheta) &amp;= \boldsymbol\nu + \boldsymbol\Lambda (\mathbf I - \mathbf B)^{-1} \boldsymbol\alpha  \\
+\boldsymbol\Sigma(\vartheta) &amp;=
+\underbrace{\boldsymbol\Lambda (\mathbf I - \mathbf B)^{-1} \boldsymbol\Psi (\mathbf I - \mathbf B)^{-\top} \boldsymbol\Lambda^\top}_{\boldsymbol\Sigma^*(\vartheta)} + \boldsymbol\Theta
+\end{align}
+\tag{1}\]</span></span></li>
+</ul>
+<div class="fragment">
+<ul>
+<li>Suppose we observe <span class="math inline">\(\mathcal Y= \{\mathbf y_1,\dots,\mathbf y_n\}\)</span>. ML estimation maximises (up to a constant) the log-likelihood <span id="eq-margloglik"><span class="math display">\[
+\ell(\vartheta)
+= -\frac{n}{2}\Bigl[
+\log \bigl|\boldsymbol\Sigma(\vartheta)\bigr|
++ \operatorname{tr} \bigl(\boldsymbol\Sigma(\vartheta)^{-1} \mathbf S\bigr)
+{\color{Gray}+ \bigl(\bar {\mathbf y} - \boldsymbol\mu(\vartheta)\bigr)^{\top}
+  \boldsymbol\Sigma(\vartheta)^{-1}
+  \bigl(\bar {\mathbf y} - \boldsymbol\mu(\vartheta)\bigr)}
+\Bigr]
+\tag{2}\]</span></span> where
+<ul>
+<li><span class="math inline">\(\mathbf S = \frac{1}{n}\sum_{i=1}^n (\mathbf y_i - \bar{\mathbf y})(\mathbf y_i - \bar{\mathbf y})^\top\)</span> is the (biased) sample covariance matrix; and</li>
+<li><span class="math inline">\(\bar{\mathbf y} = \frac{1}{n}\sum_{i=1}^n \mathbf y_i\)</span> is the sample mean.</li>
+</ul></li>
+</ul>
+<div class="nudge-down-small">
+<ul>
+<li>Clearly, the MLE aims to minimise the discrepancy between <span class="math inline">\(\mathbf S\)</span> and <span class="math inline">\(\boldsymbol\Sigma(\vartheta)\)</span>.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="taxonomy-of-latent-variable-models" class="slide level2">
+<h2>Taxonomy of latent variable models</h2>
+<ol type="1">
+<li>Factor analysis
+<ul>
+<li>Measurement model only</li>
+<li>No structural relations among latent variables</li>
+<li>Continuous or ordinal outcomes</li>
+</ul></li>
+<li>Structural equation models
+<ul>
+<li>Measurement + structural model</li>
+<li>Relations among latent variables</li>
+</ul></li>
+<li>Item Response Theory (IRT) models
+<ul>
+<li>Think CFA with binary indicators + logistic link</li>
+<li><em>Slightly</em> different parameterisation [difficulties &amp; discriminations]</li>
+</ul></li>
+<li>Others
+<ul>
+<li>Path analysis, mediation analysis, MIMIC models, latent growth curve models, multilevel SEM, multigroup SEM, latent class analysis, etc.</li>
+</ul></li>
+</ol>
+</section>
+<section>
+<section id="confirmatory-factor-analysis-cfa" class="title-slide slide level1 transition-slide center">
+<h1>Confirmatory Factor Analysis (CFA)</h1>
+
+</section>
+<section id="cfa-is-measurement-only-model" class="slide level2">
+<h2>CFA is measurement only model</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="talk_files/figure-revealjs/pathtwofac-1.png" class="quarto-figure quarto-figure-center" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<p><span class="math display">\[
+\small
+\begin{gather*}
+\underbrace{\begin{bmatrix}
+y_{s1} \\ y_{s2} \\ y_{s3} \\ y_{s4} \\ y_{s5} \\ y_{s6} \\ y_{s7} \\ y_{s8} \\ y_{s9}
+\end{bmatrix}}_{\mathbf{y}_s}
+=
+\underbrace{\begin{bmatrix}
+\nu_1 \\ \nu_2 \\ \nu_3 \\ \nu_4 \\ \nu_5 \\ \nu_6 \\ \nu_7 \\ \nu_8 \\ \nu_9
+\end{bmatrix}}_{\boldsymbol{\nu}}
++
+\underbrace{\begin{bmatrix}
+\lambda_{11} &amp; 0 &amp; 0 \\
+\lambda_{21} &amp; 0 &amp; 0 \\
+\lambda_{31} &amp; 0 &amp; 0 \\
+0 &amp; \lambda_{42} &amp; 0 \\
+0 &amp; \lambda_{52} &amp; 0 \\
+0 &amp; \lambda_{62} &amp; 0 \\
+0 &amp; 0 &amp; \lambda_{73} \\
+0 &amp; 0 &amp; \lambda_{83} \\
+0 &amp; 0 &amp; \lambda_{93} \\
+\end{bmatrix}}_{\boldsymbol{\Lambda}}
+\underbrace{\begin{bmatrix}
+\eta_{s1} \\ \eta_{s2} \\ \eta_{s3}
+\end{bmatrix}}_{\boldsymbol{\eta_s}}
++
+\underbrace{\begin{bmatrix}
+\epsilon_{s1} \\ \epsilon_{s2} \\ \epsilon_{s3} \\ \epsilon_{s4} \\ \epsilon_{s5} \\ \epsilon_{s6} \\ \epsilon_{s7} \\ \epsilon_{s8} \\ \epsilon_{s9}
+\end{bmatrix}}_{\boldsymbol{\epsilon}_s}\\
+\boldsymbol{\epsilon}_s
+\overset{\text{iid}}{\sim}
+\mathcal{N}_9 \bigg(
+\mathbf{0},
+\underbrace{\operatorname{diag}(\theta_{11},\dots,\theta_{99})}_{\boldsymbol{\Theta}}
+\bigg)
+\\
+\boldsymbol{\eta_s}
+\overset{\text{iid}}{\sim}
+\mathcal{N}_3 \bigg(
+\mathbf{0},
+\underbrace{\begin{bmatrix}
+\psi_{11} &amp; \psi_{12} &amp; \psi_{13} \\
+\cdot &amp; \psi_{22} &amp; \psi_{23} \\
+\cdot &amp; \cdot &amp; \psi_{33}
+\end{bmatrix}}_{\boldsymbol{\Psi}}
+\bigg)
+\end{gather*}
+\]</span></p>
+</div></div>
+
+<aside><div>
+<p><span class="citation" data-cites="holzinger1939study">(<a href="#/references" role="doc-biblioref" onclick="">Holzinger and Swineford 1939</a>)</span></p>
+</div></aside></section>
+<section id="identifiability-constraints" class="slide level2">
+<h2>Identifiability constraints</h2>
+<ul>
+<li>A CFA model requires identifiability constraints. Consider the CFA equation <span class="math display">\[
+y_i = \lambda_{ij} \eta_j + \epsilon_i, \quad \eta_j \sim \text{N}(0, \psi_{jj}), \quad \epsilon_i \sim \text{N}(0, \theta_{ii}).
+\]</span></li>
+<li>The total model-implied variance is <span class="math display">\[
+\operatorname{var}(y_i) = \lambda_{ij}^2 \psi_{jj} + \theta_{ii}
+\]</span></li>
+</ul>
+<div class="fragment">
+<ul>
+<li>Consider the transformation <span class="math inline">\((\lambda_{ij}, \psi_{j}) \mapsto (c\lambda_{ij}, \psi_{ij}/c^2)\)</span>, for some <span class="math inline">\(c\in\mathbb R\)</span>. Then <span class="math display">\[
+\operatorname{var}(y_i) = \cancel{\textcolor{gray}{c^2}}\lambda_{ij}^2 \frac{\psi_{jj}}{ \cancel{\textcolor{gray}{c^2}}} + \theta_{ii}
+\]</span></li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>The traditional advice is to either:
+<ol type="1">
+<li>Choose an item <span class="math inline">\(i\)</span> and set its loading to 1 (anchoring/marking); <span class="bg-yel">[how?]</span></li>
+<li>Fix latent variance to 1 (standardisation).</li>
+</ol></li>
+</ul>
+</div>
+</section>
+<section id="deep-dive" class="slide level2">
+<h2>Deep dive</h2>
+<ul>
+<li>Anchoring approach (choose an item, set <span class="math inline">\(\lambda=1\)</span>)
+<ol type="1">
+<li>Results depend on which item is chosen as reference (arbitrary!)</li>
+<li>Distorts scale (since <span class="math inline">\(\psi \propto 1/\lambda^2\)</span>)</li>
+<li>Low reliability item won’t give much information about latent variable</li>
+</ol></li>
+</ul>
+<div class="fragment">
+<ul>
+<li>Standardisation approach (set <span class="math inline">\(\psi=1\)</span>)
+<ol type="1">
+<li>Latent variable loses meaning, as it is now on arbitrary scale.</li>
+<li>Loadings absorb all the scale. Is this right?</li>
+</ol></li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li><p>Since the likelihood is scale invariant, both approaches give the same fit. Point estimates can be transformed between the two methods.</p></li>
+<li><p>It seems, choosing one or the other is merely selecting one <em>coordinate system</em> among infinitely many equivalent ones.</p></li>
+</ul>
+</div>
+</section>
+<section id="identifiability-strength" class="slide level2">
+<h2>Identifiability strength</h2>
+<h3 id="profile-log-likelihood-for-lambda_ipsi-for-cfa-model">Profile log-likelihood for <span class="math inline">\((\lambda_i,\psi)\)</span> for CFA model</h3>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="talk_files/figure-revealjs/unnamed-chunk-4-1.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="a-principled-approach" class="slide level2">
+<h2>A principled approach</h2>
+<ul>
+<li>Consider a 1-factor model whose covariance matrix is given by <span class="math display">\[
+\operatorname{var}({\mathbf y}) = \psi \boldsymbol\Lambda\boldsymbol\Lambda^\top + \boldsymbol\Theta =: \boldsymbol\Sigma_y
+\]</span></li>
+<li>Since there is a scale indeterminacy between <span class="math inline">\(\psi\)</span> and <span class="math inline">\(\boldsymbol\Lambda\)</span>,
+<ul>
+<li>The direction of <span class="math inline">\(\boldsymbol\Lambda\)</span> is identifiable, but not its magnitude.</li>
+<li>The absolute scale of <span class="math inline">\(\psi\)</span> is likewise not identifiable.</li>
+</ul></li>
+</ul>
+<div class="fragment">
+<ul>
+<li>Normalise <span class="math inline">\(\boldsymbol\Lambda\)</span> to have unit length, i.e.&nbsp;set <span class="math inline">\(\|\boldsymbol\Lambda\|=1\)</span>. This transfers all scale information to <span class="math inline">\(\psi\)</span>. Let <span class="math inline">\(\tilde{\boldsymbol\Lambda} = \frac{\boldsymbol\Lambda}{\| \boldsymbol\Lambda \|}\)</span>.
+<ul>
+<li>Normalised loadings lies on the unit sphere <span class="math inline">\(\mathcal S^{p-1}\)</span>;</li>
+<li>With <span class="math inline">\(\psi\)</span> acting as a radial parameter (controlling strength of the factor).</li>
+</ul></li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>Very intuitive:
+<ul>
+<li>Separates patterns (directions) from strengths (scales). Matches geometric intuition!</li>
+<li>Eliminates arbitrary choices, parameterisation is “symmetric”.</li>
+</ul></li>
+</ul>
+</div>
+</section>
+<section id="improved-geometry" class="slide level2">
+<h2>Improved geometry</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="talk_files/figure-revealjs/unnamed-chunk-5-1.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="a-bayesian-appeal" class="slide level2">
+<h2>A Bayesian appeal</h2>
+<ul>
+<li>Typical prior on <span class="math inline">\(\boldsymbol\Lambda\)</span>, such as <span class="math inline">\(\boldsymbol\Lambda\sim\mathcal N_p(0,\tau^2 \mathbf I)\)</span>, i.e. <span class="math display">\[
+p_{\boldsymbol\Lambda}(\boldsymbol\lambda) \propto \exp\left(-\frac{1}{2\tau^2} \|\boldsymbol\lambda \boldsymbol\lambda^\top \|^2 \right)
+\]</span> is <em>spherically symmetric</em> on <span class="math inline">\(\mathbb R^p\)</span>.</li>
+</ul>
+<div class="fragment">
+<ul>
+<li><p>This induces a uniform prior on the sphere for <span class="math inline">\(\tilde\Lambda\)</span>, representing complete prior ignorance about the factor’s orientation. Proof:</p>
+<ul>
+<li>Define the transformation <span class="math inline">\(\boldsymbol\Lambda = r  \tilde{\boldsymbol\Lambda}\)</span>, where <span class="math inline">\(r &gt; 0\)</span> and <span class="math inline">\(\tilde{\boldsymbol\Lambda} \in \mathcal S^{p-1}\)</span>.</li>
+<li>Jacobian is <span class="math inline">\(\left|\frac{\partial \boldsymbol \Lambda}{\partial (r, \tilde{\boldsymbol\Lambda})}\right| = r^{p-1}\)</span>. <em>(volume scaling when expanding unit sphere to radius <span class="math inline">\(r\)</span>)</em></li>
+<li>PDF transform gives <span class="math inline">\(p(r, \tilde{\boldsymbol\Lambda}) \propto p(r) \, r^{p-1}\)</span>. Hence, uniform on the sphere.</li>
+</ul></li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>Any directional belief (e.g., expecting all loadings to be positive or concentrated around a certain variable) can be introduced naturally via a von Mises-Fisher prior on <span class="math inline">\(\tilde{\boldsymbol\Lambda}\)</span>.</li>
+</ul>
+</div>
+</section>
+<section id="how-i-got-here" class="slide level2">
+<h2>How I got here</h2>
+<h3 id="inlavaan-with-std.lv-false-anchoring">INLAvaan with <code>std.lv = FALSE</code> (anchoring)</h3>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="talk_files/figure-revealjs/unnamed-chunk-6-1.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="how-i-got-here-1" class="slide level2">
+<h2>How I got here</h2>
+<h3 id="inlavaan-with-std.lv-true-fixing-latent-variance">INLAvaan with <code>std.lv = TRUE</code> (fixing latent variance)</h3>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="talk_files/figure-revealjs/unnamed-chunk-7-1.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="takeaways" class="slide level2">
+<h2>Takeaways</h2>
+<h3 id="you-cannot-fix-bad-geometry">You cannot fix bad geometry!!!</h3>
+<div class="nudge-down">
+<ul>
+<li><p>Anchoring or fixing variance imposes arbitrary coordinate cuts through the likelihood surface. This causes strong curvature (ill-conditioning) around the mode.</p></li>
+<li><p>Ill-conditioned Hessians arise from poor parameterisation, not from lack of information in the data. It’s a “coordinate-system artefact”.</p></li>
+<li><p>A geometrically natural parameterisation respects the model’s invariances <strong>by construction</strong>.</p></li>
+<li><p>Implications for frequentist estimation (standard errors), Bayesian MCMC, and us (approximate Bayes).</p></li>
+<li><p>Next up: 1) Theory for &gt;1 factor models; 2) Implementation in code.</p></li>
+</ul>
+</div>
+<!-- ## CFA model -->
+<!-- ::: {.columns} -->
+<!-- ::: {.column width=50%} -->
+<!-- Special case of SEM with only measurement model ($\boldsymbol\alpha=\mathbf 0,\mathbf B=\mathbf 0$) -->
+<!-- ::: -->
+<!-- ::: {.column width=50%} -->
+<!-- ```{r, engine = "tikz"} -->
+<!-- #| fig-align: center -->
+<!-- #| out-width: 100% -->
+<!-- \definecolor{kaustorg}{RGB}{241, 143, 0} -->
+<!-- \definecolor{kausttur}{RGB}{0, 166, 170} -->
+<!-- \definecolor{kaustmer}{RGB}{177, 15, 46} -->
+<!-- \definecolor{kaustgrn}{RGB}{173, 191, 4} -->
+<!-- \definecolor{kaustblu}{RGB}{82, 132, 196} -->
+<!-- \definecolor{kaustpur}{RGB}{156, 111, 174} -->
+<!-- \begin{tikzpicture}[% -->
+<!--   scale=0.88, -->
+<!--   >=stealth, -->
+<!--   auto, -->
+<!--   node distance=1.6cm, -->
+<!--   every node/.style={font=\small}, -->
+<!--   latent/.style={font=\normalsize,circle, draw, minimum size=9mm, inner sep=0mm}, -->
+<!--   obs/.style={font=\normalsize,rectangle, draw, minimum size=6mm, inner sep=0mm}, -->
+<!--   error/.style={font=\normalsize,circle, draw, minimum size=5mm, inner sep=0mm} -->
+<!-- ] -->
+<!-- % -------------------------------------------------------- -->
+<!-- % 1) LATENT VARIABLES -->
+<!-- % -------------------------------------------------------- -->
+<!-- \node[latent] (eta1) at (-0.2, -2) {$\eta$}; -->
+<!-- % -------------------------------------------------------- -->
+<!-- % 2) OBSERVED VARIABLES + ERROR TERMS -->
+<!-- %    Place y1..y3 (for eta1) on the left, y4..y6 (for eta2) on the right. -->
+<!-- % -------------------------------------------------------- -->
+<!-- \node[obs] (y1) at (-2.8, 0) {$y_{1}$}; -->
+<!-- \node[obs] (y2) at (-1.5, 0) {$y_{2}$}; -->
+<!-- \node[obs] (y3) at ( -0.2, 0) {$y_{3}$}; -->
+<!-- \node[obs] (y4) at ( 1.3, 0) {$y_{4}$}; -->
+<!-- \node[obs] (y5) at ( 2.6, 0) {$y_{5}$}; -->
+<!-- % Error terms above each observed variable -->
+<!-- \node[error] (e1) at (-2.8, 1) {$\epsilon_{1}$}; -->
+<!-- \node[error] (e2) at (-1.5, 1) {$\epsilon_{2}$}; -->
+<!-- \node[error] (e3) at ( -0.2, 1) {$\epsilon_{3}$}; -->
+<!-- \node[error] (e4) at ( 1.3, 1) {$\epsilon_{4}$}; -->
+<!-- \node[error] (e5) at ( 2.6, 1) {$\epsilon_{5}$}; -->
+<!-- % -------------------------------------------------------- -->
+<!-- % 3) PATHS FROM ERROR TERMS TO OBSERVED VARIABLES -->
+<!-- % -------------------------------------------------------- -->
+<!-- \draw[->] (e2) -- (y2); -->
+<!-- \draw[->] (e3) -- (y3); -->
+<!-- \draw[->] (e4) -- (y4); -->
+<!-- \draw[->] (e5) -- (y5); -->
+<!-- \draw[->] (eta1) -- node[pos=0.5, right] {$\lambda_1$} (y1); -->
+<!-- \draw[->] (eta1) -- node[pos=0.5, right] {$\lambda_{2}$} (y2); -->
+<!-- \draw[->] (eta1) -- node[pos=0.5, right] {$\lambda_{3}$} (y3); -->
+<!-- \draw[->] (eta1) -- node[pos=0.5, right] {$\lambda_{4}$} (y4); -->
+<!-- \draw[->] (eta1) -- node[pos=0.5, right] {$\lambda_{5}$} (y5); -->
+<!-- % -------------------------------------------------------- -->
+<!-- % 6) VARIANCES OF LATENT VARIABLES -->
+<!-- %    Double-headed arrows for psi_{11} and psi_{22} -->
+<!-- % -------------------------------------------------------- -->
+<!-- \draw[<->] (eta1) to[out=290, in=320, looseness=4] -->
+<!--   node[right] {$\psi$} (eta1); -->
+<!-- \foreach \i in {1,...,5}{ -->
+<!--   \draw[->] (e\i) -- (y\i); -->
+<!--   \draw[<->] (e\i) -->
+<!--     to[out=110, in=140, looseness=5] -->
+<!--     node[above] {$\theta_{\i}$} -->
+<!--     (e\i); -->
+<!-- } -->
+<!-- \end{tikzpicture} -->
+<!-- ``` -->
+<!-- ::: -->
+<!-- ::: -->
+<!-- - Special case of SEM with only measurement model -->
+<!--   $$ -->
+<!--   \mathbf y = \boldsymbol\Lambda \boldsymbol\eta + \boldsymbol\epsilon -->
+<!--   $$ -->
+<!--   with $\boldsymbol\eta\sim \text{N}_q(\mathbf 0, \boldsymbol\Psi)$ and $\boldsymbol\epsilon\sim \text{N}_p(\mathbf 0, \boldsymbol\Theta)$. -->
+</section></section>
+<section>
+<section id="شكرا-جزيلا" class="title-slide slide level1 thanks-slide center" data-background-image="_extensions/haziqj/kaust/KAUST-Thank-you.jpg" style="padding-top:0.5em;padding-bottom:0em">
+<h1>شكراً جزيلاً</h1>
+<p><a href="https://haziqj.ml/sembias-gradsem"><code>https://haziqj.ml/sembias-gradsem</code></a></p>
+</section>
+<section id="references" class="slide level2 smaller scrollable">
+<h2>References</h2>
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-holzinger1939study" class="csl-entry" role="listitem">
+Holzinger, K. J., and F. Swineford. 1939. <span>“A Study in Factor Analysis: The Stability of a Bi-Factor Solution.”</span> <em>Supplementary Educational Monographs</em> 48: xi + 91–91.
+</div>
+<div id="ref-song2012basic" class="csl-entry" role="listitem">
+Song, Xin‐Yuan, and Sik‐Yum Lee. 2012. <em>Basic and <span>Advanced Bayesian Structural Equation Modeling</span>: <span>With Applications</span> in the <span>Medical</span> and <span>Behavioral Sciences</span></em>. 1st ed. Wiley <span>Series</span> in <span>Probability</span> and <span>Statistics</span>. Wiley. <a href="https://doi.org/10.1002/9781118358887">https://doi.org/10.1002/9781118358887</a>.
+</div>
+</div>
+</section></section>
+
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<p><img src="_extensions/haziqj/kaust/KAUST-logo-seed.svg" class="slide-logo"></p>
+<div class="footer footer-default">
+
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="talk_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="talk_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="talk_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="talk_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="talk_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="talk_files/libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="talk_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="talk_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="talk_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="talk_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="talk_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': true,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'fade',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1250,
+
+        height: 760,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+            const codeEl = trigger.previousElementSibling.cloneNode(true);
+            for (const childEl of codeEl.children) {
+              if (isCodeAnnotation(childEl)) {
+                childEl.remove();
+              }
+            }
+            return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    <script type="text/javascript">
+      Reveal.on('ready', event => {
+        if (event.indexh === 0) {
+          document.querySelector("div.has-logo > img.slide-logo").style.display = "none";
+        }
+      });
+      Reveal.addEventListener('slidechanged', (event) => {
+        if (event.indexh === 0) {
+          Reveal.configure({ slideNumber: null });
+          document.querySelector("div.has-logo > img.slide-logo").style.display = "none";
+        }
+        if (event.indexh === 1) { 
+          Reveal.configure({ slideNumber: 'c/t' });
+          document.querySelector("div.has-logo > img.slide-logo").style.display = null;
+        }
+      });
+    </script>
+    
+
+</body></html>
