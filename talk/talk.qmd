@@ -21,7 +21,7 @@ author:
     affiliations: 
       - 'Research Specialist, BAYESCOMP @ CEMSE-KAUST'
       # - '<span style="font-style:normal;">[`https://haziqj.ml/sembias-gradsem/`](https://haziqj.ml/sembias-gradsem/)</span>'
-date: 2025-10-28
+date: 2025-10-29
 bibliography: ../refs.bib
 execute:
   echo: false
