@@ -1,0 +1,840 @@
+% Options for packages loaded elsewhere
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+%
+\documentclass[
+  letterpaper,
+  DIV=11,
+  numbers=noendperiod]{scrartcl}
+\usepackage{xcolor}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{5}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+% Make \paragraph and \subparagraph free-standing
+\makeatletter
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}{
+    \@ifstar
+      \xxxParagraphStar
+      \xxxParagraphNoStar
+  }
+  \newcommand{\xxxParagraphStar}[1]{\oldparagraph*{#1}\mbox{}}
+  \newcommand{\xxxParagraphNoStar}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}{
+    \@ifstar
+      \xxxSubParagraphStar
+      \xxxSubParagraphNoStar
+  }
+  \newcommand{\xxxSubParagraphStar}[1]{\oldsubparagraph*{#1}\mbox{}}
+  \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+\makeatother
+
+
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+
+
+% definitions for citeproc citations
+\NewDocumentCommand\citeproctext{}{}
+\NewDocumentCommand\citeproc{mm}{%
+  \begingroup\def\citeproctext{#2}\cite{#1}\endgroup}
+\makeatletter
+ % allow citations to break across lines
+ \let\@cite@ofmt\@firstofone
+ % avoid brackets around text for \cite:
+ \def\@biblabel#1{}
+ \def\@cite#1#2{{#1\if@tempswa , #2\fi}}
+\makeatother
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newenvironment{CSLReferences}[2] % #1 hanging-indent, #2 entry-spacing
+ {\begin{list}{}{%
+  \setlength{\itemindent}{0pt}
+  \setlength{\leftmargin}{0pt}
+  \setlength{\parsep}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1
+   \setlength{\leftmargin}{\cslhangindent}
+   \setlength{\itemindent}{-1\cslhangindent}
+  \fi
+  % set entry spacing
+  \setlength{\itemsep}{#2\baselineskip}}}
+ {\end{list}}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{\hfill\break\parbox[t]{\linewidth}{\strut\ignorespaces#1\strut}}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+
+
+
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+
+
+ 
+
+
+\KOMAoption{captions}{tableheading}
+\include{_extensions/maths_shortcuts.tex}
+\makeatletter
+\@ifpackageloaded{tcolorbox}{}{\usepackage[skins,breakable]{tcolorbox}}
+\@ifpackageloaded{fontawesome5}{}{\usepackage{fontawesome5}}
+\definecolor{quarto-callout-color}{HTML}{909090}
+\definecolor{quarto-callout-note-color}{HTML}{0758E5}
+\definecolor{quarto-callout-important-color}{HTML}{CC1914}
+\definecolor{quarto-callout-warning-color}{HTML}{EB9113}
+\definecolor{quarto-callout-tip-color}{HTML}{00A047}
+\definecolor{quarto-callout-caution-color}{HTML}{FC5300}
+\definecolor{quarto-callout-color-frame}{HTML}{acacac}
+\definecolor{quarto-callout-note-color-frame}{HTML}{4582ec}
+\definecolor{quarto-callout-important-color-frame}{HTML}{d9534f}
+\definecolor{quarto-callout-warning-color-frame}{HTML}{f0ad4e}
+\definecolor{quarto-callout-tip-color-frame}{HTML}{02b875}
+\definecolor{quarto-callout-caution-color-frame}{HTML}{fd7e14}
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Table of contents}
+\else
+  \newcommand\contentsname{Table of contents}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{List of Figures}
+\else
+  \newcommand\listfigurename{List of Figures}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{List of Tables}
+\else
+  \newcommand\listtablename{List of Tables}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Figure}
+\else
+  \newcommand\figurename{Figure}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Table}
+\else
+  \newcommand\tablename{Table}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Listing}
+\newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Exploratory and Confirmatory Factor Analysis Identification by Spherical Geometry},
+  pdfkeywords={Keyword, Keyword, Keyword, Keyword, Keyword},
+  colorlinks=true,
+  linkcolor={blue},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
+
+
+\title{Exploratory and Confirmatory Factor Analysis Identification by
+Spherical Geometry}
+\author{Haziq Jamil \and Håvard Rue}
+\date{}
+\begin{document}
+\maketitle
+\begin{abstract}
+A nice abstract goes here.
+\end{abstract}
+
+
+\section{Motivation}\label{motivation}
+
+Why identification choices matter? Consider the Gaussian factor model \[
+\begin{gathered}
+y = \Lambda \eta + \epsilon\\
+\eta \sim \mathcal{N}_q(0, \Psi)\\
+\epsilon \sim \mathcal{N}_p(0, \Theta)\\
+\end{gathered}
+\] with \(\eta \propto \epsilon\). The implied covariance matrix is \[
+\Sigma_y := \operatorname{Var}(y) = \Lambda \Psi \Lambda^\top + \Theta. 
+\] In Bayesian SEM (and especially approximate Bayesian SEM: Laplace,
+skew-normal marginals, two-piece Gaussians, etc.), the local geometry of
+the posterior around its mode matters enormously because the
+approximation quality is driven by the Hessian (curvature) at or near
+the mode. Although this work has implications for maximum likelihood
+(affects standard errors) and sampling based Bayesian inference (affects
+easiness of sampling from posterior state space).
+
+The \textbf{standard SEM advice} is
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Marker/anchoring: set one loading per factor (e.g.,
+  \(\lambda_{i^\star}=1\)); or\\
+\item
+  Standardise latent variables, i.e.~fix latent variance \(\psi=1\) (per
+  factor), estimating all loadings.
+\end{enumerate}
+
+Textbooks often say these are ``equivalent up to rescaling''. That
+statement is true at the level of fit (same \(\Sigma_y\)), but it hides
+a critical nuance:
+
+\begin{quote}
+Even if two parameterisations are theoretically equivalent, they can
+induce very different local curvature (Hessians) in the coordinates used
+by an optimiser / Laplace approximation. The mode may map across
+parameterisations, but the shape of the posterior in those coordinates
+can change dramatically.
+\end{quote}
+
+This is not just philosophical. Empirically saw cases where
+Laplace-based approximations were ``near-perfect'' under one
+parameterisation (\texttt{std.lv\ =\ TRUE}) and noticeably worse under
+another (anchored + nonlinear covariance transforms), despite targeting
+the same underlying model.
+
+\section{Literature Review}\label{literature-review}
+
+In recent years, some papers have been published that become aware of
+this issue: that selecting anchors or scale identification should not be
+arbitrary. Here is a selection of relevant papers:
+
+\begin{verbatim}
+[1] K. A. Bollen, A. G. Lilly, and L. Luo. "Selecting Scaling
+Indicators in Structural Equation Models (Sems)." In: _Psychological
+Methods_ 29.5 (Oct. 2024), pp. 868-889. ISSN: 1939-1463, 1082-989X.
+DOI: 10.1037/met0000530.
+
+[2] B. Graves and E. C. Merkle. "A Note on Identification Constraints
+and Information Criteria in Bayesian Latent Variable Models". In:
+_Behavior Research Methods_ 54.2 (Aug. 2021), pp. 795-804. ISSN:
+1554-3528. DOI: 10.3758/s13428-021-01649-8.
+
+[3] E. Klopp and S. Klößner. "Scaling Metric Measurement Invariance
+Models". In: _Methodology_ 19.3 (Sep. 2023), pp. 192-227. ISSN:
+1614-2241. DOI: 10.5964/meth.10177.
+
+[4] E. Klopp and S. Klößner. "The Impact of Scaling Methods on the
+Properties and Interpretation of Parameter Estimates in Structural
+Equation Models with Latent Variables". In: _Structural Equation
+Modeling: A Multidisciplinary Journal_ 28.2 (Mar. 2021), pp. 182-206.
+ISSN: 1070-5511, 1532-8007. DOI: 10.1080/10705511.2020.1796673.
+
+[5] T. D. Little, D. W. Slegers, and N. A. Card. "A Non-arbitrary
+Method of Identifying and Scaling Latent Variables in SEM and MACS
+Models". In: _Structural Equation Modeling: A Multidisciplinary
+Journal_ 13.1 (Jan. 2006), pp. 59-72. ISSN: 1070-5511, 1532-8007. DOI:
+10.1207/s15328007sem1301_3.
+
+[6] J. H. Steiger. "When Constraints Interact: A Caution about
+Reference Variables, Identification Constraints, and Scale Dependencies
+in Structural Equation Modeling." In: _Psychological Methods_ 7.2
+(2002), pp. 210-227. ISSN: 1939-1463, 1082-989X. DOI:
+10.1037/1082-989X.7.2.210.
+\end{verbatim}
+
+\section{Case: 1-factor model}\label{case-1-factor-model}
+
+In the 1-factor case, a scaling symmetry and ridge geometry emerges.
+Write \(\Psi = \psi\) (a scalar), \(\Lambda\in\mathbb R^{p \times 1}\).
+Then \[
+\Sigma_y = \psi \Lambda \Lambda^\top + \Theta.
+\] There is an exact scaling invariance: for any \(c>0\), \[
+(\Lambda,\psi)\ \mapsto\ (c\Lambda,\ \psi/c^2)
+\quad\Rightarrow\quad
+\psi\,\Lambda\Lambda^\top = (\psi/c^2)\,(c\Lambda)(c\Lambda)^\top.
+\] So the likelihood (and posterior absent informative priors that break
+this symmetry) is flat along a radial ridge in the joint
+\((\Lambda,\psi)\) directions: only the product
+\(\psi\Lambda\Lambda^\top\) is identified, not the individual ``scale
+split'' between \(\psi\) and \(\Lambda\).
+
+This ridge is easy to see in profile likelihood plots: high density
+follows approximately \[
+\psi \propto \frac{1}{\lambda_i^2}
+\quad\Longleftrightarrow\quad
+\log\psi = \text{const} - 2\log|\lambda_i|.
+\] Different identification constraints are different ``cuts'' through
+this ridge, and those cuts can be more or less orthogonal to the ridge
+depending on which loading is reliable/noisy.
+
+\begin{tcolorbox}[enhanced jigsaw, colback=white, arc=.35mm, left=2mm, breakable, colframe=quarto-callout-color-frame, rightrule=.15mm, bottomrule=.15mm, leftrule=.75mm, opacityback=0, toprule=.15mm]
+
+\vspace{-3mm}\textbf{Key intuition}\vspace{3mm}
+
+Think of a long mountain ridge (likelihood high along a curve). Fixing
+\(\lambda_{i^\star}=1\) is a vertical slice; fixing \(\psi=1\) is a
+horizontal slice. Because the ridge is curved and its steepness depends
+on item reliability, some slices pass through a sharp peak (good
+curvature), others pass through a broad flat region (ill conditioning).
+
+\end{tcolorbox}
+
+\subsection{Anchoring}\label{anchoring}
+
+Anchoring can be geometrically unstable because it chooses an indicator
+and forces it to be ``special''. If that indicator is weak/noisy, the
+posterior can be highly anisotropic: the ridge becomes shallow in the
+anchored coordinate system, producing an ill-conditioned Hessian.
+
+This leads to:
+
+\begin{itemize}
+\tightlist
+\item
+  poor curvature estimates (large condition numbers),
+\item
+  degraded Laplace approximations (since Laplace is curvature-driven),
+\item
+  skewed or heavy-tailed marginal shapes that simple
+  Gaussian/Skew-Normal fits approximate less well.
+\end{itemize}
+
+We also observed empirically (via repeated simulations and condition
+numbers):
+
+\begin{itemize}
+\tightlist
+\item
+  anchoring on strong indicators often yields good conditioning,
+\item
+  anchoring on weak indicators can be catastrophic,
+\item
+  you typically do not know ``the gold standard item'' a priori, so
+  anchoring is risky as a default.
+\end{itemize}
+
+\pandocbounded{\includegraphics[keepaspectratio]{talk/talk_files/figure-revealjs/unnamed-chunk-4-1.png}}
+
+\subsection{A spherical
+reparameterisation}\label{a-spherical-reparameterisation}
+
+A principled way to respect the scaling symmetry is to explicitly
+separate:
+
+\begin{itemize}
+\tightlist
+\item
+  a direction (pattern of loadings), and
+\item
+  a radial scale (overall factor strength).
+\end{itemize}
+
+Write \[
+\Lambda = r\,\tilde\Lambda,\qquad r>0,\qquad \|\tilde\Lambda\|=1,
+\] and treat \(r\) (or \(r^2\)) as the scale parameter. Then \[
+\psi\,\Lambda\Lambda^\top
+= \psi\,r^2\,\tilde\Lambda\tilde\Lambda^\top.
+\] We can absorb scale either into \(\psi\) or into \(r\). A clean
+choice is to let the latent variance carry the scale and fix
+\(\|\Lambda\|=1\) (equivalently set \(r=1\)): \[
+\|\Lambda\|=1,\quad \psi\ \text{free}
+\quad\Rightarrow\quad
+\Sigma_y = \psi\,\Lambda\Lambda^\top+\Theta.
+\]
+
+Now:
+
+\begin{itemize}
+\tightlist
+\item
+  \(\Lambda\) is a direction on the unit sphere \(\mathcal S^{p-1}\),
+\item
+  \(\psi\) is the radial strength (how much common variance the factor
+  contributes).
+\end{itemize}
+
+This removes the scale ridge by construction.
+
+A natural prior emerges if we place a spherically symmetric prior on
+\(\Lambda\), e.g. \(\Lambda \sim \mathcal N(0,\tau^2 I)\). Writing
+\(\Lambda=r u\) with \(u\in\mathcal S^{p-1}\) yields a density that
+factorises into a radial part and a directional part. The key
+consequence:
+
+\begin{itemize}
+\tightlist
+\item
+  the induced prior on the direction u is uniform on the sphere (no
+  preferred orientation),
+\item
+  all directional structure must come from the likelihood (or from an
+  explicit directional prior if desired).
+\end{itemize}
+
+This is one of the conceptual appeals: it aligns with ``prior ignorance
+about orientation'' in a way that anchoring does not.
+
+\begin{tcolorbox}[enhanced jigsaw, colback=white, arc=.35mm, left=2mm, breakable, colframe=quarto-callout-color-frame, rightrule=.15mm, bottomrule=.15mm, leftrule=.75mm, opacityback=0, toprule=.15mm]
+
+\vspace{-3mm}\textbf{Remark}\vspace{3mm}
+
+Elias remarked that we can also naturally place PC priors in this
+framework, by defining the base model as the no-factor model \((r=0)\)
+which yields an exponential distribution on \(r\).
+
+\end{tcolorbox}
+
+\pandocbounded{\includegraphics[keepaspectratio]{talk/talk_files/figure-revealjs/unnamed-chunk-5-1.png}}
+
+\subsection{Planar (effects-coding)}\label{planar-effects-coding}
+
+We also studied an alternative that is not spherical: effects coding (a
+``planar'' constraint). For each factor column \(\lambda_j\), \[
+\mathbf 1^\top \lambda_j = c_j
+\] often \(c_j=p_j\) or \(c_j=0\) after centring. Geometrically, this
+constrains \(\lambda_j\) to an affine hyperplane (flat manifold)
+orthogonal to \(\mathbf 1\). This:
+
+\begin{itemize}
+\tightlist
+\item
+  avoids choosing a special marker item,
+\item
+  breaks the scale symmetry in a linear way,
+\item
+  tends to produce very well-behaved curvature (excellent condition
+  numbers) in independent-cluster CFA.
+\end{itemize}
+
+Empirically, in repeated simulations for independent-cluster CFA, we
+found:
+
+\begin{itemize}
+\tightlist
+\item
+  effects coding (``planar'') often had the best conditioning,
+\item
+  spherical was typically second best,
+\item
+  fixing \(\psi=1\) was often okay,
+\item
+  anchoring was highly sensitive to whether the marker item was
+  strong/weak.
+\end{itemize}
+
+Interpretation: planar is a flat, symmetric ``coordinate cut'' through
+the ridge, whereas spherical is a curved symmetry-respecting cut. Both
+can improve geometry; planar can be surprisingly strong for independent
+clusters.
+
+\section{Multi-factor CFA}\label{multi-factor-cfa}
+
+In multifactor CFA, there are two types of \(\Lambda\) matrix designs.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Independent-cluster: each item loads on only one factor (simple
+  structure).
+\item
+  Complex structure: items can load on multiple factors, including the
+  most complex scenario where all items load on all factors (\(\Lambda\)
+  is dense) as in EFA.
+\end{enumerate}
+
+\subsection{Independent-cluster CFA}\label{independent-cluster-cfa}
+
+Let \(\Lambda\) be block-sparse by design (each item loads on only one
+factor). Two practical geometric approaches:
+
+\subsubsection{A. Product-of-spheres (per factor
+block)}\label{a.-product-of-spheres-per-factor-block}
+
+For factor \(j\) with loading block \(\lambda_j\in\mathbb R^{p_j}\), \[
+\|\lambda_j\|=1\quad \text{for each }j,
+\] and let \(\Psi\) be free (e.g., parameterise
+\(\Psi=D^{1/2} C D^{1/2}\) with log-variances and an LKJ prior on C).
+This is a product manifold \[
+\mathcal S^{p_1-1}\times\cdots\times \mathcal S^{p_m-1},
+\] which is simple and works well because clusters are structurally
+separated.
+
+\subsubsection{B. Planar / effects coding per factor
+block}\label{b.-planar-effects-coding-per-factor-block}
+
+For each factor block, \[
+\mathbf 1^\top \lambda_j = c_j
+\] (plus a sign convention). This is a masked affine subspace, easy to
+optimise in Euclidean coordinates, and in our experiments it often
+produced the best conditioning.
+
+\begin{tcolorbox}[enhanced jigsaw, colback=white, arc=.35mm, left=2mm, breakable, colframe=quarto-callout-color-frame, rightrule=.15mm, bottomrule=.15mm, leftrule=.75mm, opacityback=0, toprule=.15mm]
+
+\vspace{-3mm}\textbf{Takeaway for independent-cluster CFA}\vspace{3mm}
+
+You can get excellent geometry without ``true'' Stiefel machinery
+because the CFA sparsity already breaks much of the problematic
+interaction.
+
+\end{tcolorbox}
+
+\subsection{Complex structure CFA}\label{complex-structure-cfa}
+
+When cross-loadings appear (or in EFA where \(\Lambda\) is dense), there
+is rotational indeterminacy:
+
+For any orthogonal \(R\in\mathbb R^{m\times m}\) with \(R^\top R=I\), \[
+\tilde\Lambda=\Lambda R,\qquad \tilde\Psi=R^\top \Psi R
+\quad\Rightarrow\quad
+\tilde\Lambda\tilde\Psi\tilde\Lambda^\top=\Lambda\Psi\Lambda^\top.
+\] So the likelihood is flat along a rotation ridge as well.
+
+Appeal to a Stiefel parameterisation. A common geometric move is to
+represent the loading ``direction frame'' as \[
+Q\in\mathcal V_{p,m}=\{Q:Q^\top Q=I\},
+\] and write \[
+\Sigma_y = Q\,\Psi\,Q^\top + \Theta,
+\] with \(\Psi\succ0\) parameterised by a Cholesky factor (and
+optionally decomposed into scales + correlations for LKJ priors).
+
+This is ``rotation-respecting'': it does not force an arbitrary
+coordinate frame like effects coding does. Instead, it treats the space
+of orthonormal frames as the natural domain for ``directions''.
+
+In exploratory factor analysis (EFA), the likelihood depends on the
+loading matrix \(\Lambda\) only through the covariance component
+\(\Lambda \Psi \Lambda^\top\). Consequently, for any orthogonal rotation
+\(R\in O(m)\), \[
+(\Lambda,\Psi)\ \mapsto\ (\Lambda R,\ R^\top \Psi R)
+\quad\Longrightarrow\quad
+\Lambda\Psi\Lambda^\top = (\Lambda R)(R^\top\Psi R)(\Lambda R)^\top,
+\] so the model-implied covariance \(\Sigma_y\) is unchanged. This is
+the familiar rotational indeterminacy: \((\Lambda,\Psi)\) is not
+identified as a unique pair.
+
+A useful distinction is between:
+
+\begin{itemize}
+\tightlist
+\item
+  Resolving (fixing) rotations: adding a convention (e.g., varimax,
+  oblimin, or sign/order rules) that selects a single representative
+  from the equivalence class
+  \(\{(\Lambda R, R^\top\Psi R): R\in O(m)\}\). This yields
+  interpretability, but it is fundamentally a choice of gauge rather
+  than information supplied by the likelihood.
+\item
+  Respecting rotations: parameterising the model so the rotational
+  symmetry is expressed explicitly, without privileging an arbitrary
+  coordinate frame during optimisation.
+\end{itemize}
+
+The Stiefel/Grassmann perspective formalises the latter. Write the
+``directional'' part of the loadings as \(Q\in\mathbb R^{p\times m}\)
+with orthonormal columns, \[
+Q^\top Q = I_m \qquad (Q \in \mathcal V_{p,m},\ \text{the Stiefel manifold}),
+\] and let all scale and dependence be carried by a free positive
+definite matrix \(\Psi\succ0\). Rotations act as \[
+(Q,\Psi)\ \mapsto\ (Q R,\ R^\top\Psi R),
+\] which leaves \(\Sigma_y = Q\Psi Q^\top + \Theta\) invariant.
+Importantly, this action stays within the Stiefel manifold: if
+\(Q\in\mathcal V_{p,m}\) then \(QR\in\mathcal V_{p,m}\). Thus, Stiefel
+coordinates do not ``fix'' rotational indeterminacy; they respect it by
+representing the symmetry in a geometrically natural way.
+
+From an identifiability standpoint, what EFA identifies is not \(Q\)
+itself but the \(m\)-dimensional subspace spanned by its columns: \[
+\mathrm{span}(Q)\ \in\ \mathrm{Gr}(m,p),
+\] a point on the Grassmann manifold \(\mathrm{Gr}(m,p)\). The mapping
+\(Q \mapsto QR\) changes the basis but not the subspace, so all matrices
+in the orbit \(\{QR:R\in O(m)\}\) correspond to the same point on
+\(\mathrm{Gr}(m,p)\). Varimax and related rotations can then be viewed
+as a post hoc gauge-fixing step that chooses an interpretable basis
+within the same subspace---without altering the fitted covariance
+\(\Sigma_y\).
+
+This viewpoint clarifies a common practice in EFA: ``fix latent
+variances and rotate''. Fixing latent variances (e.g., \(\Psi=I\)) is
+primarily a scaling convention, while varimax is a rotation convention.
+The Stiefel formulation separates these roles cleanly: it removes
+scaling ambiguity by construction (scale is carried by \(\Psi\), while Q
+is direction-only), and it treats rotations as an explicit symmetry to
+be handled by a transparent gauge choice (e.g., varimax) rather than
+implicitly by the initial parametrisation.
+
+However, we notice that effects coding is not appropriate for EFA.
+Effects coding imposes column-wise linear constraints (hyperplanes).
+Those constraints are not rotation-invariant: if you rotate columns, the
+constraints generally fail. Hence, effects coding can be excellent for
+CFA (where rotation is not a symmetry because the mask fixes
+orientation), but it is not a principled solution for EFA's inherent
+rotational symmetry.
+
+\subsection{Proposal to handle sparsity when using Stiefel-style
+estimation}\label{proposal-to-handle-sparsity-when-using-stiefel-style-estimation}
+
+Manifold optimisation (dense \(Q\)) tends to lose sparsity
+automatically. So while it helps EFA, other design matrices in the
+context of CFA would not benefit. We considered two ways to impose CFA
+structure:
+
+\subsubsection{A. Hard zeros via a masked submanifold (more
+complex)}\label{a.-hard-zeros-via-a-masked-submanifold-more-complex}
+
+Restrict \(Q\) to satisfy both: \[
+Q^\top Q=I,\qquad Q_{ij}=0\ \text{if mask }M_{ij}=0.
+\] This is a ``masked Stiefel'' constraint. It enforces zeros during
+estimation, but projections/retractions become more delicate.
+
+\subsubsection{B. Dense Stiefel estimation + post-hoc rotation to a
+hypothesised
+mask}\label{b.-dense-stiefel-estimation-post-hoc-rotation-to-a-hypothesised-mask}
+
+Estimate dense \(Q\) and \(\Psi\) stably, then find an orthogonal
+rotation R that best matches the hypothesised CFA structure M, e.g.~via
+a Procrustes-type objective: \[
+R^\star = \arg\min_{R^\top R=I}\ \|(Q R)\odot (1-M)\|_F^2,
+\] and transform: \[
+\tilde Q = Q R^\star,\qquad \tilde\Psi = R^{\star\top}\Psi R^\star.
+\] This preserves \(\Sigma_y\) exactly (hence fit), while producing
+loadings in a CFA-interpretable orientation. Importantly:
+
+\begin{itemize}
+\tightlist
+\item
+  off-mask nonzeros measure mismatch between your hypothesised structure
+  and what the data support,
+\item
+  exact zeros are not guaranteed unless you hard-threshold or refit with
+  mask constraints.
+\end{itemize}
+
+\section{Discussion}\label{discussion}
+
+Why ``it doesn't matter'' is incomplete
+
+It's true that many parameterisations are equivalent at the level of
+\(\Sigma_y\), but for Laplace-type methods:
+
+\begin{itemize}
+\tightlist
+\item
+  the approximation quality depends on curvature in the chosen
+  coordinates,
+\item
+  anchoring (or other ad hoc cuts) can create ill-conditioned Hessians
+  in realistic regimes (weak markers, certain correlation structures),
+\item
+  ``recoverability'' of a target parameterisation by algebraic rescaling
+  does not guarantee the approximate posterior (or standard errors) is
+  equally accurate across parameterisations.
+\end{itemize}
+
+Practical recommendation (CFA focus)
+
+\begin{itemize}
+\tightlist
+\item
+  Independent clusters (no cross-loadings): use planar (effects coding)
+  or per-factor spherical normalisation for stable geometry; avoid
+  anchoring unless you truly have a gold-standard marker.
+\item
+  Cross-loadings: use dense Stiefel-style geometry for estimation
+  stability, then rotate post-hoc to a hypothesised mask (or use masked
+  Stiefel if exact zeros are essential).
+\item
+  EFA: use Stiefel + rotation (varimax/oblimin etc.). Effects coding is
+  not principled for EFA because it breaks rotation symmetry.
+\end{itemize}
+
+Novelty
+
+\begin{itemize}
+\tightlist
+\item
+  Not novel: ``standardised loadings'' effects coding, and rotation
+  methods exist.
+\item
+  Novel angle we developed: treating identification as a geometry
+  problem for approximate Bayesian inference, showing that:
+\end{itemize}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  identification choices reshape curvature and can materially affect
+  Laplace quality;
+\item
+  symmetry-respecting reparameterisations (spherical/Stiefel) can
+  stabilise optimisation and approximation;
+\item
+  effects coding can be viewed as optimisation on a flat affine
+  submanifold (``planar geometry''), explaining its empirical
+  conditioning benefits in independent-cluster CFA;
+\item
+  for cross-loadings, a practical workflow is ``good geometry first
+  (dense Stiefel), interpretability second (mask-aligned rotation).''
+\end{enumerate}
+
+\phantomsection\label{refs}
+\begin{CSLReferences}{1}{0}
+\bibitem[\citeproctext]{ref-bartholomew2011latent}
+Bartholomew, D. J., Knott, M., \& Moustaki, I. (2011). \emph{Latent
+variable models and factor analysis: A unified approach} (3rd ed).
+Wiley.
+
+\bibitem[\citeproctext]{ref-bollen1989structural}
+Bollen, K. A. (1989). \emph{Structural equations with latent variables}
+(pp. xiv, 514). John Wiley \& Sons.
+\url{https://doi.org/10.1002/9781118619179}
+
+\bibitem[\citeproctext]{ref-bollen2024selecting}
+Bollen, K. A., Lilly, A. G., \& Luo, L. (2024). Selecting scaling
+indicators in structural equation models (sems). \emph{Psychological
+Methods}, \emph{29}(5), 868--889.
+\url{https://doi.org/10.1037/met0000530}
+
+\bibitem[\citeproctext]{ref-graves2021note}
+Graves, B., \& Merkle, E. C. (2021). A note on identification
+constraints and information criteria in {Bayesian} latent variable
+models. \emph{Behavior Research Methods}, \emph{54}(2), 795--804.
+\url{https://doi.org/10.3758/s13428-021-01649-8}
+
+\bibitem[\citeproctext]{ref-holzinger1939study}
+Holzinger, K. J., \& Swineford, F. (1939). A study in factor analysis:
+The stability of a bi-factor solution. \emph{Supplementary Educational
+Monographs}, \emph{48}, xi + 91--xi + 91.
+
+\bibitem[\citeproctext]{ref-joreskog2001factor}
+Jöreskog, K. G., \& Moustaki, I. (2001). Factor {Analysis} of {Ordinal
+Variables}: {A Comparison} of {Three Approaches}. \emph{Multivariate
+Behavioral Research}, \emph{36}(3), 347--387.
+\url{https://doi.org/10.1207/S15327906347-387}
+
+\bibitem[\citeproctext]{ref-klopp2021impact}
+Klopp, E., \& Klößner, S. (2021). The {Impact} of {Scaling Methods} on
+the {Properties} and {Interpretation} of {Parameter Estimates} in
+{Structural Equation Models} with {Latent Variables}. \emph{Structural
+Equation Modeling: A Multidisciplinary Journal}, \emph{28}(2), 182--206.
+\url{https://doi.org/10.1080/10705511.2020.1796673}
+
+\bibitem[\citeproctext]{ref-klopp2023scaling}
+Klopp, E., \& Klößner, S. (2023). Scaling metric measurement invariance
+models. \emph{Methodology}, \emph{19}(3), 192--227.
+\url{https://doi.org/10.5964/meth.10177}
+
+\bibitem[\citeproctext]{ref-klossner2019explaining}
+Klößner, S., \& Klopp, E. (2019). Explaining {Constraint Interaction}:
+{How} to {Interpret Estimated Model Parameters Under Alternative Scaling
+Methods}. \emph{Structural Equation Modeling: A Multidisciplinary
+Journal}, \emph{26}(1), 143--155.
+\url{https://doi.org/10.1080/10705511.2018.1517356}
+
+\bibitem[\citeproctext]{ref-lee2007structural}
+Lee, S.-Y. (2007). \emph{Structural equation modeling: A {Bayesian}
+approach}. Wiley.
+
+\bibitem[\citeproctext]{ref-little2006nonarbitrary}
+Little, T. D., Slegers, D. W., \& Card, N. A. (2006). A {Non-arbitrary
+Method} of {Identifying} and {Scaling Latent Variables} in {SEM} and
+{MACS Models}. \emph{Structural Equation Modeling: A Multidisciplinary
+Journal}, \emph{13}(1), 59--72.
+\url{https://doi.org/10.1207/s15328007sem1301_3}
+
+\bibitem[\citeproctext]{ref-rue2009approximate}
+Rue, H., Martino, S., \& Chopin, N. (2009). Approximate {Bayesian
+Inference} for {Latent Gaussian} models by using {Integrated Nested
+Laplace Approximations}. \emph{Journal of the Royal Statistical Society
+Series B: Statistical Methodology}, \emph{71}(2), 319--392.
+\url{https://doi.org/10.1111/j.1467-9868.2008.00700.x}
+
+\bibitem[\citeproctext]{ref-song2012basic}
+Song, X., \& Lee, S. (2012). \emph{Basic and {Advanced Bayesian
+Structural Equation Modeling}: {With Applications} in the {Medical} and
+{Behavioral Sciences}} (1st ed.). Wiley.
+\url{https://doi.org/10.1002/9781118358887}
+
+\bibitem[\citeproctext]{ref-steiger2002when}
+Steiger, J. H. (2002). When constraints interact: {A} caution about
+reference variables, identification constraints, and scale dependencies
+in structural equation modeling. \emph{Psychological Methods},
+\emph{7}(2), 210--227. \url{https://doi.org/10.1037/1082-989X.7.2.210}
+
+\end{CSLReferences}
+
+
+
+
+\end{document}

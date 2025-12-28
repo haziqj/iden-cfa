@@ -8,3 +8,4 @@ _freeze/
 /.quarto/
 */*_files/*
 */*_cache/*
+.RDataTmp

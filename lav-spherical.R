@@ -1,30 +1,28 @@
 library(tidyverse)
 library(lavaan)
 
-## ----- Helper functions to calculate the condition number --------------------
-get_cond_number <- function(fit, param = c("anchor", "effcode", "sphere")) {
-  param <- match.arg(param)
+get_cond_number <- function(fit, param = c("effcode", "sphere")) {
   eps <- sqrt(.Machine$double.eps)
-  
+
   # Get stuff from lavaan fit
   H  <- lavInspect(fit, "hessian")
   H  <- 0.5 * (H + t(H))
-  
+
   pt <- parTable(fit)
   free_idx <- which(pt$free > 0)
   labs <- pt$label[free_idx]
-  
-  if (param != "anchor") {
+
+  if (param %in% c("effcode", "sphere")) {
     C <- t(lavInspect(fit, "est")$lambda)
     if (param == "effcode") {
       C[C != 0] <- 1  # the contstraint Jacobian of \sum lambda - p = 0
     }
     if (param == "sphere") {
       C <- 2 * C  # the contstraint Jacobian of \sum lambda^2 - 1 = 0
-    } 
+    }
     N <- pracma::nullspace(C)
     ix <- which(pt$free > 0 & pt$op == "=~" & pt$rhs %in% colnames(C))
-    
+
     # Full-space projection removing the radial directions from the Lambda block
     P <- diag(ncol(H))
     if (ncol(N) > 0) P[ix, ix] <- N %*% t(N)
@@ -32,7 +30,7 @@ get_cond_number <- function(fit, param = c("anchor", "effcode", "sphere")) {
     H <- P %*% H %*% P
     H <- 0.5 * (H + t(H))
   }
-  
+
   # Scale-invariant conditioning
   d <- sqrt(pmax(eps, abs(diag(H))))
   S <- H / (d %o% d)
@@ -40,6 +38,7 @@ get_cond_number <- function(fit, param = c("anchor", "effcode", "sphere")) {
   ev <- ev[ev > eps * max(ev)]  # drop numerical zeros (e.g., from projection)
   max(ev) / min(ev)
 }
+
 
 ## ----- Compare models --------------------------------------------------------
 
@@ -92,7 +91,7 @@ models <- list(
 
 tibble(
   model = models,
-  param = c(rep("anchor", 4), "effcode", "sphere")
+  param = c(paste0("anchor", 1:3), "fixpsi", "effcode", "sphere")
 ) |>
   mutate(kappa = map2_dbl(model, param, \(x, y) {
     fit <- cfa(x, HolzingerSwineford1939)

@@ -30,15 +30,15 @@ format:
     # biblio-style: apa
     # biblatexoptions: ["backend=biber","sorting=nyt"]
     keep-tex: true
-    output-file: jamil2025efficient
+    output-file: jamil2026identification
 
-  # pdf:
-  #   pdf-engine: pdflatex
-  #   output-file: jamil2025efficient
-  #   keep-tex: true
-  #   number-sections: true
-  #   header-includes:
-  #     - \include{_extensions/maths_shortcuts.tex}
+  pdf:
+    pdf-engine: pdflatex
+    output-file: jamil2026identification
+    keep-tex: true
+    number-sections: true
+    header-includes:
+      - \include{_extensions/maths_shortcuts.tex}
 
   # arxiv-pdf:
   #   pdf-engine: pdflatex
